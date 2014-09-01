@@ -3,6 +3,8 @@ var request = require("./request.js");
 function Queue(){
 	this.list = [];
 	this.playing = false;
+	this.process = undefined;
+	this.timeout = undefined;
 	
 	this.get_request = function(user){
 		for (var i = 0; i < this.list.length; i++){
@@ -28,6 +30,19 @@ function Queue(){
 			return true;
 		}
 		return false;
+	};
+	
+	this.kill = function(){
+		if (this.process && this.timeout){
+			this.process.kill();
+			this.process = undefined;
+			
+			clearTimeout(this.timeout);
+			this.timeout = undefined;
+			
+			this.rem_request(this.list[0].user);
+			this.playing = false;
+		}
 	};
 }
 

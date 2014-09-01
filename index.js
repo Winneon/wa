@@ -85,6 +85,24 @@ router.post("/utils/dj", function(req, res){
 					});
 				}
 				break;
+			case "veto":
+				if (queue.playing){
+					queue.kill();
+					res.json({
+						type: "refresh",
+						data: {
+							queue: queue.list
+						}
+					});
+				} else {
+					res.json({
+						type: "error",
+						data: {
+							message: "There is nothing playing at the moment!"
+						}
+					});
+				}
+				break;
 			case "refresh":
 				res.json({
 					type: "refresh",
@@ -108,11 +126,9 @@ setInterval(function(){
 	if (!queue.playing){
 		if (queue.list.length > 0){
 			queue.playing = true;
-			var process = utils.cmd("google-chrome", [queue.list[0].link]);
-			setTimeout(function(){
-				process.kill();
-				queue.rem_request(queue.list[0].user);
-				queue.playing = false;
+			queue.process = utils.cmd("google-chrome", [queue.list[0].link]);
+			queue.timeout = setTimeout(function(){
+				queue.kill();
 			}, (queue.list[0].duration + 10) * 1000);
 		}
 	} else if (queue.list.length == 0){
