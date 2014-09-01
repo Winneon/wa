@@ -34,6 +34,7 @@ router.post("/utils/dj", function(req, res){
 		url: "https://www.googleapis.com/youtube/v3/videos?id=" + utils.get_id(req.body.link) + "&key=AIzaSyDf0-iTSxH58brETEGzgsMypglGxDc2nJA&part=snippet,contentDetails",
 		json: true
 	}, function(error, response, data){
+		var success = false;
 		if (response.statusCode == 200){
 			var title = data.items[0].snippet.title;
 			var link = "https://www.youtube.com/watch?v=" + data.items[0].id;
@@ -56,9 +57,13 @@ router.post("/utils/dj", function(req, res){
 			secs = secs * mins * hours;
 			
 			queue.add_request(title, link, secs, req.body.user);
-			console.log(link);
+			console.log(secs);
 			var process = utils.cmd("google-chrome", [link]);
+			success = true;
 		}
+		res.json({
+			success: success
+		});
 	});
 });
 
