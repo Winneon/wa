@@ -34,9 +34,34 @@ router.post("/utils/dj", function(req, res){
 		url: "https://www.googleapis.com/youtube/v3/videos?id=" + utils.get_id(req.body.link) + "&key=AIzaSyDf0-iTSxH58brETEGzgsMypglGxDc2nJA&part=snippet,contentDetails",
 		json: true
 	}, function(error, response, data){
-		res.json(data);
+		if (response.statusCode == 200 && !error){
+			var title = data.items[0].snippet.title;
+			var link = "https://www.youtube.com/watch?v=" + data.items[0].id;
+			var duration = data.items[0].contentDetails.duration.replace("PT", "");
+			
+			var hours = 1;
+			var mins = 1;
+			var secs = 0;
+			
+			if (duration.indexOf("H") > -1){
+				hours = parseInt(duration.substring(0, duration.indexOf("H") - 1));
+				duration = duration.replace(hours + "H", "");
+			}
+			if (duration.indexOf("M") > -1){
+				mins = parseInt(duration.substring(0, duration.indexOf("M") - 1));
+				duration = duration.replace(mins + "M", "");
+			}
+			
+			secs = parseInt(duration.substring(0, duration.indexOf("S") - 1));
+			secs = secs * mins * hours;
+			
+			queue.add_request(title, link, secs, req.body.user);
+			var process = utils.cmd("google-chrome", link);
+			setTimeout(function(){
+				process.kill();
+			}, secs * 1000);
+		}
 	});
-	utils.cmd("google-chrome", [req.body.link]);
 });
 
 app.use(router);
