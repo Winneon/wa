@@ -1,0 +1,29 @@
+- var navbar = {}
+- navbar["home"] = "/index"
+- navbar["utilities"] = "javascript:void(0)"
+- navbar["rules"] = "/rules"
+- navbar["chat"] = "/chat"
+- navbar["about"] = "/about"
+
+- var drops = {}
+- drops["utilities"] = {}
+- drops["utilities"]["djrequest"] = "/utils/dj"
+- drops["utilities"]["alliances"] = "/utils/alliances"
+- drops["utilities"]["teamspeak"] = "/utils/ts"
+- drops["utilities"]["staff"] = "/utils/staff"
+- drops["utilities"]["ranks"] = "/utils/ranks"
+- drops["utilities"]["markkit"] = "/utils/markkit"
+- drops["utilities"]["calendar"] = "/utils/calendar"
+- drops["utilities"]["settings"] = "/utils/settings"
+ul.navbar
+	each link, text in navbar
+		li
+			- var clazz = "";
+			if url == link || (url == "" && link == "/index") || (url.indexOf("/utils/") == 0 && link.indexOf("javascript:") == 0)
+				- clazz = "selected"
+			a(class=clazz, href=link, style="width: calc(800px / " + Object.keys(navbar).length + ")")= text
+			if drops[text]
+				ul.drop
+					each link, desc in drops[text]
+						li
+							a(href=link)= desc
