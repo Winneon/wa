@@ -58,9 +58,6 @@ router.post("/utils/dj", function(req, res){
 			queue.add_request(title, link, secs, req.body.user);
 			console.log(link);
 			var process = utils.cmd("google-chrome", [link]);
-			setTimeout(function(){
-				process.kill();
-			}, secs * 1000);
 		}
 	});
 });
