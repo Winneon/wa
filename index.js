@@ -34,7 +34,7 @@ router.post("/utils/dj", function(req, res){
 		url: "https://www.googleapis.com/youtube/v3/videos?id=" + utils.get_id(req.body.link) + "&key=AIzaSyDf0-iTSxH58brETEGzgsMypglGxDc2nJA&part=snippet,contentDetails",
 		json: true
 	}, function(error, response, data){
-		if (response.statusCode == 200 && !error){
+		if (response.statusCode == 200){
 			var title = data.items[0].snippet.title;
 			var link = "https://www.youtube.com/watch?v=" + data.items[0].id;
 			var duration = data.items[0].contentDetails.duration.replace("PT", "");
