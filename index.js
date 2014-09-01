@@ -35,7 +35,7 @@ router.post("/utils/dj", function(req, res){
 		json: true
 	}, function(error, response, data){
 		var success = false;
-		if (response.statusCode == 200){
+		if (!error && response.statusCode == 200){
 			var title = data.items[0].snippet.title;
 			var link = "https://www.youtube.com/watch?v=" + data.items[0].id;
 			var duration = data.items[0].contentDetails.duration.replace("PT", "");
@@ -48,12 +48,16 @@ router.post("/utils/dj", function(req, res){
 				hours = parseInt(duration.substring(0, duration.indexOf("H") - 1));
 				duration = duration.replace(hours + "H", "");
 			}
+			console.log(duration + " " + hours);
 			if (duration.indexOf("M") > -1){
 				mins = parseInt(duration.substring(0, duration.indexOf("M") - 1));
 				duration = duration.replace(mins + "M", "");
 			}
+			console.log(duration + " " + mins);
 			
 			secs = parseInt(duration.substring(0, duration.indexOf("S") - 1));
+			
+			console.log(duration + " " + secs);
 			secs = secs * mins * hours;
 			
 			queue.add_request(title, link, secs, req.body.user);
