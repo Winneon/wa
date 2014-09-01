@@ -106,7 +106,7 @@ router.post("/utils/dj", function(req, res){
 
 setInterval(function(){
 	if (!queue.playing){
-		if (queue.list > 0){
+		if (queue.list.length > 0){
 			queue.playing = true;
 			var process = utils.cmd("google-chrome", [queue.list[0].link]);
 			setTimeout(function(){
@@ -115,7 +115,7 @@ setInterval(function(){
 				queue.playing = false;
 			}, (queue.list[0].duration + 10) * 1000);
 		}
-	} else if (queue.list == 0){
+	} else if (queue.list.length == 0){
 		queue.playing = false;
 	}
 }, 500);
