@@ -37,9 +37,6 @@ router.post("/utils/dj", function(req, res){
 		res.json(data);
 	});
 	utils.cmd("google-chrome", [req.body.link]);
-	res.json({
-		message: "Currently testing. Do not send anymore requests! Thanks <3."
-	});
 });
 
 app.use(router);
