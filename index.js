@@ -40,28 +40,12 @@ router.post("/utils/dj", function(req, res){
 			var link = "https://www.youtube.com/watch?v=" + data.items[0].id;
 			var duration = data.items[0].contentDetails.duration.replace("PT", "");
 			
-			var hours = 1;
-			var mins = 1;
-			var secs = 0;
-			
-			if (duration.indexOf("H") > -1){
-				hours = parseInt(duration.substring(0, duration.indexOf("H")));
-				duration = duration.replace(hours + "H", "");
-			}
-			console.log(duration + " " + hours);
-			if (duration.indexOf("M") > -1){
-				mins = parseInt(duration.substring(0, duration.indexOf("M")));
-				duration = duration.replace(mins + "M", "");
-			}
-			console.log(duration + " " + mins);
-			
-			secs = parseInt(duration.substring(0, duration.indexOf("S")));
-			
-			console.log(duration + " " + secs);
-			secs = secs * mins * hours;
+			secs = eval("(" + duration.replace("H", " * 3600) + (")
+				   .replace("M", " * 60) + (")
+				   .replace("S", " * 1)"));
+			console.log(secs);
 			
 			queue.add_request(title, link, secs, req.body.user);
-			console.log(secs);
 			var process = utils.cmd("google-chrome", [link]);
 			success = true;
 		}
