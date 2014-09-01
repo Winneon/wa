@@ -1,5 +1,8 @@
-var http  = require("http"),
-    https = require("https");
+var http    = require("http"),
+    https   = require("https"),
+    request = require("request");
+
+var config  = require("./config.json");
 
 function Utils(){
 	this.timestamp = function(){
@@ -37,6 +40,29 @@ function Utils(){
 			id = id.substring(0, pos);
 		}
 		return id;
+	};
+	
+	this.get_youtube_data = function(link, callback){
+		request({
+			url: "https://www.googleapis.com/youtube/v3/videos?id=" + this.get_id(link) + "&key=" + config.key + "&part=snippet,contentDetails",
+			json: true
+		}, function(error, response, data){
+			if (!error && response.statusCode == 200 && data.items.length > 0){
+				var title = data.items[0].snippet.title;
+				var link = "https://www.youtube.com/watch?v=" + data.items[0].id;
+				var duration = data.items[0].contentDetails.duration.replace("PT", "");
+				
+				duration = duration.replace("H", " * 3600) + (");
+				duration = duration.replace("M", " * 60) + (");
+				duration = duration.replace("S", " * 1)");
+				
+				var secs = eval("(" + duration);
+				
+				callback(true, title, link, secs);
+			} else {
+				callback(false);
+			}
+		});
 	};
 }
 
