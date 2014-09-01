@@ -19,7 +19,7 @@ ul.navbar
 	each link, text in navbar
 		li
 			- var clazz = "";
-			if url == link || (url == "" && link == "/index") || (url.indexOf("/utils/") == 0 && link.indexOf("javascript:") == 0)
+			if url == link || (url == "/" && link == "/index") || (url.indexOf("/utils/") == 0 && link.indexOf("javascript:") == 0)
 				- clazz = "selected"
 			a(class=clazz, href=link, style="width: calc(800px / " + Object.keys(navbar).length + ")")= text
 			if drops[text]

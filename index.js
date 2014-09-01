@@ -2,9 +2,11 @@ var express = require("express"),
     app     = express(),
     http    = require("http").Server(app),
     parser  = require("body-parser"),
-    path    = require("path");
+    path    = require("path"),
+    request = require("request");
 
 var utils   = require("./utils.js"),
+    queue   = require("./queue.js"),
     config  = require("./config.json");
 
 app.set("view engine", "jade");
@@ -28,9 +30,13 @@ app.get("*", function(req, res){
 // dJRequest POST Data
 
 router.post("/utils/dj", function(req, res){
-	utils.cmd("google-chrome", [req.body.link], function(cmd){
-		console.log(cmd.stdout);
+	request({
+		url: "https://www.googleapis.com/youtube/v3/videos?id=" + req.body.link + "&key=AIzaSyDf0-iTSxH58brETEGzgsMypglGxDc2nJA&part=snippet,contentDetails",
+		json: true
+	}, function(error, response, data){
+		console.log(data);
 	});
+	utils.cmd("google-chrome", [req.body.link]);
 	res.json({
 		message: "Currently testing. Do not send anymore requests! Thanks <3."
 	});

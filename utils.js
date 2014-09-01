@@ -1,3 +1,6 @@
+var http  = require("http"),
+    https = require("https");
+
 function Utils(){
 	this.timestamp = function(){
 		var date  = new Date().toString(),
@@ -11,15 +14,19 @@ function Utils(){
 		    child = spawn(cmd, args),
 		    self = this;
 		
+		child.on("error", function(error){
+			console.log("An error has occurred! Code: " + error.code);
+		});
 		child.stdout.on("data", function(buffer){
 			self.stdout += buffer.toString();
 		});
-		child.stdout.on("error", function(error){
-			console.log(error);
-		});
 		child.stdout.on("end", function(){
-			end(self);
+			if (end){
+				end(self);
+			}
 		});
+		
+		return child;
 	};
 }
 
