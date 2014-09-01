@@ -43,10 +43,12 @@ router.post("/utils/dj", function(req, res){
 			secs = eval("(" + duration.replace("H", " * 3600) + (")
 				   .replace("M", " * 60) + (")
 				   .replace("S", " * 1)"));
-			console.log(secs);
 			
 			queue.add_request(title, link, secs, req.body.user);
 			var process = utils.cmd("google-chrome", [link]);
+			setTimeout(function(){
+				process.kill();
+			}, secs * 1000);
 			success = true;
 		}
 		res.json({
