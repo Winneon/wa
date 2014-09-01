@@ -45,17 +45,17 @@ router.post("/utils/dj", function(req, res){
 			var secs = 0;
 			
 			if (duration.indexOf("H") > -1){
-				hours = parseInt(duration.substring(0, duration.indexOf("H") - 1));
+				hours = parseInt(duration.substring(0, duration.indexOf("H")));
 				duration = duration.replace(hours + "H", "");
 			}
 			console.log(duration + " " + hours);
 			if (duration.indexOf("M") > -1){
-				mins = parseInt(duration.substring(0, duration.indexOf("M") - 1));
+				mins = parseInt(duration.substring(0, duration.indexOf("M")));
 				duration = duration.replace(mins + "M", "");
 			}
 			console.log(duration + " " + mins);
 			
-			secs = parseInt(duration.substring(0, duration.indexOf("S") - 1));
+			secs = parseInt(duration.substring(0, duration.indexOf("S")));
 			
 			console.log(duration + " " + secs);
 			secs = secs * mins * hours;
