@@ -9,6 +9,7 @@ function Utils(){
 		
 		return time;
 	};
+	
 	this.cmd = function(cmd, args, end){
 		var spawn = require("child_process").spawn,
 		    child = spawn(cmd, args),
@@ -27,6 +28,15 @@ function Utils(){
 		});
 		
 		return child;
+	};
+	
+	this.get_id = function(link){
+		var id = link.split("v=")[1];
+		var pos = id.indexOf("&");
+		if (pos > -1){
+			id = id.substring(0, pos);
+		}
+		return id;
 	};
 }
 

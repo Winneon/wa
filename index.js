@@ -31,10 +31,10 @@ app.get("*", function(req, res){
 
 router.post("/utils/dj", function(req, res){
 	request({
-		url: "https://www.googleapis.com/youtube/v3/videos?id=" + req.body.link + "&key=AIzaSyDf0-iTSxH58brETEGzgsMypglGxDc2nJA&part=snippet,contentDetails",
+		url: "https://www.googleapis.com/youtube/v3/videos?id=" + utils.get_id(req.body.link) + "&key=AIzaSyDf0-iTSxH58brETEGzgsMypglGxDc2nJA&part=snippet,contentDetails",
 		json: true
 	}, function(error, response, data){
-		console.log(data);
+		res.json(data);
 	});
 	utils.cmd("google-chrome", [req.body.link]);
 	res.json({
