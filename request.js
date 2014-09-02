@@ -1,9 +1,12 @@
 function Request(title, link, duration, user){
-	this.title = title;
-	this.link = link;
-	this.duration = duration;
-	this.user = user;
-	return this;
+	var data = {};
+	
+	data.title = title;
+	data.link = link;
+	data.duration = duration;
+	data.user = user;
+	
+	return data;
 }
 
 module.exports = Request;

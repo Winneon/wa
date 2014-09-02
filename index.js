@@ -2,8 +2,7 @@ var express = require("express"),
     app     = express(),
     http    = require("http").Server(app),
     parser  = require("body-parser"),
-    path    = require("path"),
-    request = require("request");
+    path    = require("path");
 
 var utils   = require("./utils.js"),
     queue   = require("./queue.js"),
@@ -30,40 +29,112 @@ app.get("*", function(req, res){
 // dJRequest POST Data
 
 router.post("/utils/dj", function(req, res){
-	request({
-		url: "https://www.googleapis.com/youtube/v3/videos?id=" + utils.get_id(req.body.link) + "&key=AIzaSyDf0-iTSxH58brETEGzgsMypglGxDc2nJA&part=snippet,contentDetails",
-		json: true
-	}, function(error, response, data){
-		if (!error && response.statusCode == 200){
-			var title = data.items[0].snippet.title;
-			var link = "https://www.youtube.com/watch?v=" + data.items[0].id;
-			var duration = data.items[0].contentDetails.duration.replace("PT", "");
-			
-			secs = eval("(" + duration.replace("H", " * 3600) + (")
-				   .replace("M", " * 60) + (")
-				   .replace("S", " * 1)"));
-			
-			queue.add_request(title, link, secs, req.body.user);
-			var process = utils.cmd("google-chrome", [link]);
-			setTimeout(function(){
-				process.kill();
-				queue.rem_request(req.body.user);
-			}, secs + 10 * 1000);
-			success = true;
-			res.json({
-				success: true,
-				user: req.body.user,
-				title: title,
-				link: link,
-				duration: secs
-			});
-		} else {
-			res.json({
-				success: false
-			});
+	if (req.body.type){
+		switch (req.body.type){
+			default:
+				res.json({
+					type: "error",
+					data: {
+						message: "Unknown request type!"
+					}
+				});
+				break;
+			case "add":
+				if (queue.get_request(req.body.user)){
+					res.json({
+						type: "error",
+						data: {
+							message: "You have already requested a song!"
+						}
+					});
+				} else {
+					utils.get_youtube_data(req.body.data.link, function(success, title, link, duration){
+						if (success){
+							queue.add_request(title, link, duration, req.body.user);
+							res.json({
+								type: "refresh",
+								data: {
+									queue: queue.list
+								}
+							});
+						} else {
+							res.json({
+								type: "error",
+								data: {
+									message: "There was an error parsing your link!"
+								}
+							});
+						}
+					});
+				}
+				break;
+			case "remove":
+				if (queue.rem_request(req.body.user)){
+					res.json({
+						type: "refresh",
+						data: {
+							queue: queue.list
+						}
+					});
+				} else {
+					res.json({
+						type: "error",
+						data: {
+							message: "You have yet to request a song to drop!"
+						}
+					});
+				}
+				break;
+			case "veto":
+				if (queue.playing){
+					queue.kill();
+					res.json({
+						type: "refresh",
+						data: {
+							queue: queue.list
+						}
+					});
+				} else {
+					res.json({
+						type: "error",
+						data: {
+							message: "There is nothing playing at the moment!"
+						}
+					});
+				}
+				break;
+			case "refresh":
+				res.json({
+					type: "refresh",
+					data: {
+						queue: queue.list
+					}
+				});
+				break;
 		}
-	});
+	} else {
+		res.json({
+			type: "error",
+			data: {
+				message: "You did not specify a request type!"
+			}
+		});
+	}
 });
+
+setInterval(function(){
+	if (!queue.playing){
+		if (queue.list.length > 0){
+			queue.playing = true;
+			queue.process = utils.cmd("google-chrome", [queue.list[0].link]);
+			queue.timeout = setTimeout(function(){
+				queue.kill();
+			}, (queue.list[0].duration + 10) * 1000);
+		}
+	} else if (queue.list.length == 0){
+		queue.playing = false;
+	}
+}, 500);
 
 app.use(router);
 
