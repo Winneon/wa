@@ -2,12 +2,12 @@ extends /core
 block css
 	link(rel="stylesheet", type="text/css", href="/css/dj.css")
 block content
-	h1 WA DJ Request
+	h1 Worlds Apart dJRequest - 
 		span
+		.controls
+			i.fa.fa-plus
+			i.fa.fa-refresh
 	.box
-		- var i = 1
-		while i <= 10
-			button(type="submit", name="Song") Song #{i}
-			- i++
+		input(type="text", name="add", placeholder="Enter your YouTube link here")
 block js
 	script(type="text/javascript", src="/js/dj.js")
