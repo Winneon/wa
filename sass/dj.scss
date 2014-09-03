@@ -1,7 +1,13 @@
 @import "lib/bourbon/bourbon";
 
+h1 {
+	position: relative;
+}
+
 div.controls {
-	float: right;
+	position: absolute;
+	top: 0;
+	right: 0;
 	letter-spacing: 8px;
 }
 
