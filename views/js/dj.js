@@ -11,7 +11,7 @@ $(document).ready(function(){
 				console.log([user, clip].join(" "));
 				if (user == ""){
 					// Warning code here for later.
-				} else if (clip.indexOf("youtube.com/watch?" == -1)){
+				} else if (clip.indexOf("youtube.com/watch?") == -1)){
 					// More warning code here for later.
 				} else {
 					$.post("/utils/dj", {
