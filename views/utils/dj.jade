@@ -11,10 +11,15 @@ block content
 			i.fa.fa-gavel
 			i.fa.fa-thumbs-down
 	.box
-		input(type="text", name="add", placeholder="Enter your YouTube link here")
+		input(class="visible", type="text", name="add", placeholder="Enter your YouTube link here")
 		table.queue
 			- var i = 0
 			- var numerals = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"]
+			tr
+				td Pos.
+				td Name of Song
+				td Submitter
+				td Duration
 			while i < 10
 				tr
 					td= numerals[i]

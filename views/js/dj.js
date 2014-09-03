@@ -2,6 +2,25 @@ $(document).ready(function(){
 	$("div.controls i.fa-plus").click(function(event){
 		$("input[name='add']").toggleClass("visible");
 	});
+	$("div.controls i.fa-minus").click(function(event){
+		if (user == ""){
+			// Warning code later.
+		} else {
+			$.post("/utils/dj", {
+				type: "remove",
+				user: user
+			}, function(data){
+				refresh(data.data.queue);
+			});
+		}
+	});
+	$("div.controls i.fa-refresh").click(function(event){
+		$.post("/utils/dj", {
+			type: "refresh"
+		}, function(data){
+			refresh(data.data.queue);
+		});
+	});
 	$("div.controls i.fa-gavel").click(function(event){
 		$.post("/utils/dj", {
 			type: "veto"
@@ -18,7 +37,6 @@ $(document).ready(function(){
 		if (add_input[i].name == "add"){
 			add_input[i].onpaste = function(event){
 				var clip = event.clipboardData.getData("text/plain");
-				$(this).toggleClass("visible");
 				console.log([user, clip].join(" "));
 				if (user == ""){
 					// Warning code here for later.
@@ -42,12 +60,24 @@ $(document).ready(function(){
 			};
 		}
 	}
+	setInterval(function(){
+		$.post("/utils/dj", {
+			type: "refresh"
+		}, function(data){
+			refresh(data.data.queue);
+		});
+	}, 5000);
 });
 
 function refresh(queue){
 	var children = $("table tbody").children();
+	if (queue[0]){
+		$($("h1 span")[0]).html(queue[0].title);
+	} else {
+		$($("h1 span")[0]).html("Nothing Playing");
+	}
 	for (var i = 0; i < 10; i++){
-		var row      = $(children[i]).children(),
+		var row      = $(children[i + 1]).children(),
 		    name     = $(row[1]),
 		    username = $(row[2]),
 		    duration = $(row[3]);

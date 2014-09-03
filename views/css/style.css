@@ -38,7 +38,12 @@ table {
   width: 100%;
   font-family: "Raleway", "Open Sans", sans-serif; }
 
-table tr:nth-child(even) {
+table tr:first-child {
+  background-color: #2D2D2D !important;
+  color: white;
+  text-transform: uppercase; }
+
+table tr:nth-child(odd) {
   background-color: #EEEEEE; }
 
 table tr td {
@@ -50,6 +55,9 @@ table tr td:nth-child(1) {
   font-weight: 700;
   text-align: right; }
 
+table tr:first-child td:nth-child(1) {
+  font-weight: 400; }
+
 table tr td:nth-child(2) {
   width: 68%; }
 
@@ -60,6 +68,9 @@ table tr td:nth-child(4) {
   width: 7%;
   font-weight: 700;
   text-align: right; }
+
+table tr:first-child td:nth-child(4) {
+  font-weight: 400; }
 
 table tr td:last-child {
   border-right: 0px solid transparent; }
@@ -74,10 +85,10 @@ input {
   margin: 15px 0px;
   font-family: "Raleway", "Open Sans", sans-serif; }
 
-input:first-of-type {
+input:first-child {
   margin-top: 0px; }
 
-input:last-of-type {
+input:last-child {
   margin-bottom: 0px; }
 
 button {
