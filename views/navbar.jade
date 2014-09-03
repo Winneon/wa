@@ -22,9 +22,14 @@ ul.navbar
 	each link, text in navbar
 		li
 			- var clazz = "";
+			- var temp = text
 			if url == link || (url == "/" && link == "/index") || (url.indexOf("/utils/") == 0 && link.indexOf("javascript:") == 0)
 				- clazz = "selected"
-			a(class=clazz, href=link, style="width: calc(800px / " + Object.keys(navbar).length + ")")= text
+				if (url.indexOf("/utils/") == 0 && link.indexOf("javascript:") == 0)
+					each link, desc in drops[text]
+						if url == link
+							- temp = desc
+			a(class=clazz, href=link, style="width: calc(800px / " + Object.keys(navbar).length + ")")= temp
 			if drops[text]
 				ul.drop
 					each link, desc in drops[text]

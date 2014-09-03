@@ -2,12 +2,25 @@ extends /core
 block css
 	link(rel="stylesheet", type="text/css", href="/css/dj.css")
 block content
-	h1 Worlds Apart dJRequest - 
-		span
+	h1 
+		span Nothing Playing
 		.controls
 			i.fa.fa-plus
+			i.fa.fa-minus
 			i.fa.fa-refresh
+			i.fa.fa-gavel
+			i.fa.fa-thumbs-down
 	.box
 		input(type="text", name="add", placeholder="Enter your YouTube link here")
+		table.queue
+			- var i = 0
+			- var numerals = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"]
+			while i < 10
+				tr
+					td= numerals[i]
+					td -
+					td -
+					td --:--
+				- i++
 block js
 	script(type="text/javascript", src="/js/dj.js")
