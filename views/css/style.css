@@ -1,4 +1,4 @@
-* {
+*:not(ul), ul.navbar, ul.drop {
   margin: 0;
   padding: 0; }
 
@@ -15,6 +15,58 @@ p {
 a {
   color: inherit;
   text-decoration: none; }
+
+h1 {
+  background-color: #2D2D2D;
+  border-radius: 2px 2px 0px 0px;
+  padding: 10px 15px;
+  margin-top: 30px;
+  color: white;
+  font-family: "Raleway", "Open Sans", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  text-transform: uppercase; }
+
+h1:first-of-type {
+  margin-top: 0px; }
+
+input {
+  display: block;
+  box-sizing: border-box;
+  border: 1px solid #2D2D2D;
+  border-radius: 2px;
+  width: 100%;
+  padding: 7px 10px;
+  margin: 15px 0px;
+  font-family: "Raleway", "Open Sans", sans-serif;
+  text-transform: uppercase; }
+
+input:first-of-type {
+  margin-top: 0px; }
+
+input:last-of-type {
+  margin-bottom: 0px; }
+
+button {
+  display: block;
+  cursor: pointer;
+  box-sizing: border-box;
+  border: 1px solid #2D2D2D;
+  border-radius: 2px;
+  padding: 7px 10px;
+  font-family: "Raleway", "Open Sans", sans-serif;
+  text-align: left;
+  text-transform: uppercase;
+  -webkit-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  -moz-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out; }
+
+button:hover {
+  background-color: #2D2D2D;
+  color: white; }
+
+:focus {
+  outline: 0px; }
 
 div.content {
   overflow-x: hidden;
@@ -40,6 +92,7 @@ ul.navbar {
   margin: 0 auto;
   color: white;
   font-family: "Raleway", "Open Sans", sans-serif;
+  font-size: 16px;
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 3px; }
@@ -52,9 +105,9 @@ ul.navbar {
     border-right: 1px solid white;
     box-sizing: border-box;
     padding: 20px;
-    -webkit-transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-    -moz-transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out; }
+    -webkit-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    -moz-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out; }
   ul.navbar > li > a:hover, ul.navbar > li > a.selected {
     background-color: white;
     color: black; }
@@ -73,7 +126,8 @@ ul.drop {
   color: black;
   font-size: 0.8em;
   text-align: left;
-  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.6);
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.6);
+  z-index: 1;
   -webkit-transition: opacity 0.15s ease-in-out, visibility 0.15s ease-in-out;
   -moz-transition: opacity 0.15s ease-in-out, visibility 0.15s ease-in-out;
   transition: opacity 0.15s ease-in-out, visibility 0.15s ease-in-out; }
@@ -93,6 +147,7 @@ ul.drop.drop_visible {
   opacity: 1; }
 
 div.page {
+  position: relative;
   background-color: #FFFFFF;
   box-sizing: border-box;
   border-radius: 0px 0px 2px 2px;
@@ -100,6 +155,25 @@ div.page {
   width: 804px;
   padding: 40px;
   margin: 0 auto 50px auto; }
+
+div.box {
+  background-color: #F0F0F0;
+  border: 1px solid #2D2D2D;
+  border-top: 0px solid transparent;
+  border-radius: 0px 0px 2px 2px;
+  padding: 15px 15px; }
+
+div.user_box {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px 15px;
+  font-family: "Raleway", "Open Sans", sans-serif;
+  font-size: 16px;
+  text-transform: uppercase; }
+
+div.user_box span {
+  font-weight: 700; }
 
 ::-webkit-scrollbar {
   width: 36px; }

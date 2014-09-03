@@ -1,8 +1,11 @@
 - var navbar = {}
 - navbar["home"] = "/index"
-- navbar["utilities"] = "javascript:void(0)"
 - navbar["rules"] = "/rules"
-- navbar["chat"] = "/chat"
+if session.user
+	- navbar["chat"] = "/chat"
+else
+	- navbar["login"] = "/login"
+- navbar["utilities"] = "javascript:void(0)"
 - navbar["about"] = "/about"
 
 - var drops = {}
