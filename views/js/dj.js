@@ -104,5 +104,5 @@ function refresh(queue){
 			}
 		}
 	}
-	$(this).prop("disabled", disabled);
+	$("input[name='add']").prop("disabled", disabled);
 }
