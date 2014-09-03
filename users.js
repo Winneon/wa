@@ -1,5 +1,7 @@
 var fs     = require("fs"),
-    crypto = require("crypto"),
+    crypto = require("crypto");
+
+var config = require("./config.json"),
     file   = require("./users.json");
 
 function Users(){
