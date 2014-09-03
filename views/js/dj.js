@@ -37,12 +37,12 @@ $(document).ready(function(){
 		if (add_input[i].name == "add"){
 			add_input[i].onpaste = function(event){
 				var clip = event.clipboardData.getData("text/plain");
-				console.log([user, clip].join(" "));
 				if (user == ""){
 					// Warning code here for later.
 				} else if (clip.indexOf("youtube.com/watch?") == -1){
 					// More warning code here for later.
 				} else {
+					$(this).val("");
 					$.post("/utils/dj", {
 						type: "add",
 						user: user,
