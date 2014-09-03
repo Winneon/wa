@@ -88,7 +88,9 @@ function refresh(queue){
 				"href": queue[i].link
 			}).html(queue[i].title));
 			username.html(queue[i].user);
-			duration.html(queue[i].duration);
+			var mins = Math.floor(queue[i].duration / 60);
+			var secs = queue[i].duration % 60;
+			duration.html([mins, secs].join(":"));
 			if (queue[i].user == user){
 				disabled = true;
 			}
