@@ -1,0 +1,23 @@
+@import "lib/bourbon/bourbon";
+
+div.controls {
+	float: right;
+	letter-spacing: 8px;
+}
+
+div.controls i {
+	cursor: pointer;
+	@include transition(transform .5s ease-in-out);
+}
+
+div.controls i:hover {
+	@include transform(translateY(-3px));
+}
+
+input[name="add"] {
+	display: none;
+}
+
+*.visible {
+	display: block !important;
+}

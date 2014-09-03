@@ -1,44 +1,34 @@
-$(function(){
-	$('#platform').bind("contextmenu", function(e){
-		e.preventDefault(); 
+$(document).ready(function(){
+	$("div.controls i.fa-plus").click(function(event){
+		$("input[name='add']").toggleClass("visible");
 	});
-	$('#platformAdd').mousedown(function(e){
-		if (isLeftClick(e)){
-			alert("Add");
+	var add_input = document.getElementsByTagName("input");
+	for (var i = 0 ; i < add_input.length; i++){
+		if (add_input[i].name == "add"){
+			add_input[i].onpaste = function(event){
+				var clip = event.clipboardData.getData("text/plain");
+				$(this).toggleClass("visible");
+				console.log([user, clip].join(" "));
+				if (user == ""){
+					// Warning code here for later.
+				} else if (clip.indexOf("youtube.com/watch?") == -1){
+					// More warning code here for later.
+				} else {
+					$.post("/utils/dj", {
+						type: "add",
+						user: user,
+						data: {
+							link: clip
+						}
+					}, function(data){
+						if (data.type == "error"){
+							// Yet even more warning code.
+						} else {
+							// Add refresh queue to list.
+						}
+					});
+				}
+			};
 		}
-	});
-	$('#platformVeto').mousedown(function(e){
-		if (event.which == 1){
-			alert("Veto");
-		}
-	});
-	$('#platformLogin').mousedown(function(e){
-		if (event.which == 1){
-			alert("Veto");
-		}
-	});
-	$('#platformSettings').mousedown(function(e){
-		if (event.which == 1){
-			alert("Veto");
-		}
-	});
-	
-	$('#platformAdd').mouseenter(function(){
-		$('#platformImage').src="../img/platformAdd.png";
-	});
-	$('#platformVeto').mouseenter(function(){
-		$('#platformImage').src="../img/platformVeto.png";
-	});
-	$('#platformLogin').mouseenter(function(){
-		$('#platformImage').src="../img/platformLogin.png";
-	});
-	$('#platformSettings').mouseenter(function(){
-		$('#platformImage').src="../img/platformSettings.png";
-	});
+	}
 });
-
-function isLeftClick(e){
-	return e.which == 1;
-}
-
-$($("h1 span")[0]).html(" - Test Song");
