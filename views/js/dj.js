@@ -42,7 +42,7 @@ $(document).ready(function(){
 				} else if (clip.indexOf("youtube.com/watch?") == -1){
 					// More warning code here for later.
 				} else {
-					$(this).val("");
+					$(event.target).val("");
 					$.post("/utils/dj", {
 						type: "add",
 						user: user,

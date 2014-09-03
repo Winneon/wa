@@ -5,6 +5,7 @@ div.controls {
   position: absolute;
   top: 0;
   right: 0;
+  padding: 10px 15px;
   letter-spacing: 8px; }
 
 div.controls i {
