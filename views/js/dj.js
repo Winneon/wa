@@ -8,6 +8,7 @@ $(document).ready(function(){
 			add_input[i].onpaste = function(event){
 				var clip = event.clipboardData.getData("text/plain");
 				$(this).toggleClass("visible");
+				console.log([user, clip].join(" "));
 				if (user == ""){
 					// Warning code here for later.
 				} else if (clip.indexOf("youtube.com/watch?" == -1)){
