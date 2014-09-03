@@ -42,7 +42,8 @@ $(document).ready(function(){
 				} else if (clip.indexOf("youtube.com/watch?") == -1){
 					// More warning code here for later.
 				} else {
-					$("input").val("");
+					$(this).prop("disabled", true);
+					$(this).val("");
 					$.post("/utils/dj", {
 						type: "add",
 						user: user,
@@ -70,6 +71,7 @@ $(document).ready(function(){
 });
 
 function refresh(queue){
+	var disabled = false;
 	var children = $("table tbody").children();
 	if (queue[0]){
 		$($("h1 span")[0]).html(queue[0].title);
@@ -87,6 +89,9 @@ function refresh(queue){
 			}).html(queue[i].title));
 			username.html(queue[i].user);
 			duration.html(queue[i].duration);
+			if (queue[i].user == user){
+				disabled = true;
+			}
 		} else {
 			if (name.html() != "-"){
 				name.html("-");
@@ -99,4 +104,5 @@ function refresh(queue){
 			}
 		}
 	}
+	$(this).prop("disabled", disabled);
 }
