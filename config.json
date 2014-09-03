@@ -1,5 +1,6 @@
 {
 	"port": 8080,
 	"key": "AIzaSyDf0-iTSxH58brETEGzgsMypglGxDc2nJA",
-	"secret": "SECRET_CODE_HERE"
+	"secret": "SECRET_CODE_HERE",
+	"encryption": "ENCRYPTION_CODE"
 }
