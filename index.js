@@ -1,4 +1,5 @@
 var express = require("express"),
+    session = require("express-session"),
     app     = express(),
     http    = require("http").Server(app),
     parser  = require("body-parser"),
@@ -14,15 +15,29 @@ app.set("views", path.join(__dirname, "views"));
 app.use(parser.urlencoded({
 	extended: true
 }));
-app.use(parser.json());
+
 app.use(express.static(app.get("views")));
+app.use(parser.json());
+app.use(session({
+	secret: config.secret,
+	resave: true,
+	saveUninitialized: true
+}));
 
 var router = express.Router();
 
 app.get("*", function(req, res){
 	res.render(req.url.replace("/", ""), {
 		basedir: app.get("views"),
-		url: req.url
+		url: req.url,
+		session: req.session
+	});
+});
+
+router.post("/login", function(req, res){
+	req.session.user = req.body.user;
+	res.json({
+		success: true
 	});
 });
 

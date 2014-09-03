@@ -5,6 +5,7 @@ module.exports = function(grunt){
 				files: {
 					"views/css/style.css": "sass/style.scss",
 					"views/css/load.css": "sass/load.scss",
+					"views/css/login.css": "sass/login.scss",
 					"views/css/dj.css": "sass/dj.scss"
 				}
 			}
