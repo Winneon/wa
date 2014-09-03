@@ -2,9 +2,10 @@ $(document).ready(function(){
 	$("button").click(function(event){
 		switch ($(this).attr("name")){
 			case "login":
-				login();
+				submit("login");
 				break;
 			case "register":
+				submit("register");
 				break;
 		}
 	});
@@ -18,23 +19,37 @@ $(document).ready(function(){
 			return false;
 		}
 		if (event.which == 13){
-			login();
+			submit("login");
 			return false;
 		}
 	});
 });
 
-function login(){
+function submit(type){
 	var user = $("input[name='user']").val();
 	var pass = $("input[name='password']").val();
 	if (user != "" && pass != ""){
-		$.post("/login", {
-			user: user,
-			password: pass
-		}, function(data){
-			if (data.success){
-				window.location.assign(window.location.origin);
-			}
-		});
+		switch (type){
+			case "login":
+				$.post("/login", {
+					username: user,
+					password: pass
+				}, function(data){
+					if (data.success){
+						window.location.assign(window.location.origin);
+					}
+				});
+				break;
+			case "register":
+				$.post("/register", {
+					username: user,
+					password: pass
+				}, function(data){
+					if (data.success){
+						window.location.assign(window.location.origin);
+					}
+				});
+				break;
+		}
 	}
 }

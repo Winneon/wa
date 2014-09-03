@@ -6,6 +6,7 @@ var express = require("express"),
     path    = require("path");
 
 var utils   = require("./utils.js"),
+    users   = require("./users.js"),
     queue   = require("./queue.js"),
     config  = require("./config.json");
 
@@ -34,11 +35,30 @@ app.get("*", function(req, res){
 	});
 });
 
+router.post("/register", function(req, res){
+	if (users.register(req.body.username, req.body.password)){
+		req.session.user = req.body.username;
+		res.json({
+			success: true
+		});
+	} else {
+		res.json({
+			success: false
+		});
+	}
+});
+
 router.post("/login", function(req, res){
-	req.session.user = req.body.user;
-	res.json({
-		success: true
-	});
+	if (users.login(req.body.username, req.body.password)){
+		req.session.user = req.body.username;
+		res.json({
+			success: true
+		});
+	} else {
+		res.json({
+			success: false
+		});
+	}
 });
 
 // dJRequest POST Data
@@ -160,7 +180,8 @@ http.listen(config.port, function(){
 process.stdin.resume();
 
 process.on("SIGINT", function(){
-	console.log("Terminating wa.");
+	console.log("Terminating wa. Saving users to file...");
+	users.save();
 	process.exit();
 });
 
