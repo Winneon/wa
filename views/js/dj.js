@@ -44,7 +44,7 @@ $(document).ready(function(){
 	}
 });
 
-function refresh(data){
+function refresh(queue){
 	var children = $("table tbody").children();
 	for (var i = 0; i < 10; i++){
 		var row      = $(children[i]).children(),
