@@ -1,4 +1,4 @@
-var user = $("div.user_box span").text();
+var user = $("div.user_box span").text().toLowerCase() == "login or register" ? "" : $("div.user_box span").text();
 $(document).ready(function(){
 	$(document).click(function(event){
 		var target = event.target;
