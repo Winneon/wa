@@ -85,7 +85,8 @@ function refresh(queue){
 		    duration = $(row[3]);
 		if (queue[i]){
 			name.html($("<a/>", {
-				"href": queue[i].link
+				"href": queue[i].link,
+				"target": "_blank"
 			}).html(queue[i].title));
 			username.html(queue[i].user);
 			var mins = Math.floor(queue[i].duration / 60);
