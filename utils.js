@@ -48,17 +48,21 @@ function Utils(){
 			json: true
 		}, function(error, response, data){
 			if (!error && response.statusCode == 200 && data.items.length > 0){
-				var title = data.items[0].snippet.title;
-				var link = "https://www.youtube.com/watch?v=" + data.items[0].id;
-				var duration = data.items[0].contentDetails.duration.replace("PT", "");
-				
-				duration = duration.replace("H", " * 3600) + (");
-				duration = duration.replace("M", " * 60) + (");
-				duration = duration.replace("S", " * 1)");
-				
-				var secs = eval("(" + duration);
-				
-				callback(true, title, link, secs);
+				try {
+					var title = data.items[0].snippet.title;
+					var link = "https://www.youtube.com/watch?v=" + data.items[0].id;
+					var duration = data.items[0].contentDetails.duration.replace("PT", "");
+					
+					duration = duration.replace("H", " * 3600) + (");
+					duration = duration.replace("M", " * 60) + (");
+					duration = duration.replace("S", " * 1)");
+					
+					var secs = eval("(" + duration);
+					
+					callback(true, title, link, secs);
+				} catch (error){
+					callback(false);
+				}
 			} else {
 				callback(false);
 			}

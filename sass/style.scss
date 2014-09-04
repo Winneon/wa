@@ -63,6 +63,7 @@ table tr:nth-child(odd) {
 }
 
 table tr td {
+	vertical-align: top;
 	border-right: 1px solid $h1_colour;
 	padding: 5px 7px;
 }
