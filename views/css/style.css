@@ -47,6 +47,7 @@ table tr:nth-child(odd) {
   background-color: #EEEEEE; }
 
 table tr td {
+  vertical-align: top;
   border-right: 1px solid #2D2D2D;
   padding: 5px 7px; }
 
