@@ -10,3 +10,7 @@ $(document).ready(function(){
 		}
 	});
 });
+
+function toJSON(data){
+	return JSON.parse("{\"" + decodeURI(data.replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + "\"}");
+}

@@ -91,7 +91,7 @@ function refresh(queue){
 			var mins = Math.floor(queue[i].duration / 60);
 			var secs = queue[i].duration % 60;
 			if (secs < 10){
-				secs = " " + secs;
+				secs = "0" + secs;
 			}
 			duration.html([mins, secs].join(":"));
 			if (queue[i].user == user){

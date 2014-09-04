@@ -28,9 +28,10 @@ app.use(session({
 var router = express.Router();
 
 app.get("*", function(req, res){
-	res.render(req.url.replace("/", ""), {
+	var split = req.url.split("?");
+	res.render(split[0].replace("/", ""), {
 		basedir: app.get("views"),
-		url: req.url,
+		url: split[0],
 		session: req.session
 	});
 });

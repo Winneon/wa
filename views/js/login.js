@@ -29,27 +29,13 @@ function submit(type){
 	var user = $("input[name='user']").val();
 	var pass = $("input[name='password']").val();
 	if (user != "" && pass != ""){
-		switch (type){
-			case "login":
-				$.post("/login", {
-					username: user,
-					password: pass
-				}, function(data){
-					if (data.success){
-						window.location.assign(window.location.origin);
-					}
-				});
-				break;
-			case "register":
-				$.post("/register", {
-					username: user,
-					password: pass
-				}, function(data){
-					if (data.success){
-						window.location.assign(window.location.origin);
-					}
-				});
-				break;
-		}
+		$.post("/" + type, {
+			username: user,
+			password: pass
+		}, function(data){
+			if (data.success){
+				window.location.assign(window.location.search == "" ? window.location.origin : toJSON(window.location.search.replace("?", "")).redirect);
+			}
+		});
 	}
 }
