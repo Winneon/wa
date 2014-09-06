@@ -4,12 +4,20 @@ $(document).ready(function(){
 	});
 	$("div.controls i.fa-minus").click(function(event){
 		if (user == ""){
-			// Warning code later.
+			print_message({
+				error: true,
+				message: "You are not logged in!"
+			});
 		} else {
 			$.post("/utils/dj", {
-				type: "remove",
-				user: user
+				type: "remove"
 			}, function(data){
+				if (data.type == "message" || data.data.message){
+					print_message(data.data);
+					if (data.type == "message"){
+						return;
+					}
+				}
 				refresh(data.data.queue);
 			});
 		}
@@ -25,39 +33,28 @@ $(document).ready(function(){
 		$.post("/utils/dj", {
 			type: "veto"
 		}, function(data){
-			if (data.type == "error"){
-				// Error handling!
-			} else {
-				refresh(data.data.queue);
+			if (data.type == "message" || data.data.message){
+				print_message(data.data);
+				if (data.type == "message"){
+					return;
+				}
 			}
+			refresh(data.data.queue);
 		});
 	});
 	var add_input = document.getElementsByTagName("input");
 	for (var i = 0 ; i < add_input.length; i++){
 		if (add_input[i].name == "add"){
+			$(add_input[i]).keydown(function(event){
+				if (event.which == 13){
+					var text = $(this).val();
+					add_request(this, text);
+					return false;
+				}
+			});
 			add_input[i].onpaste = function(event){
 				var clip = event.clipboardData.getData("text/plain");
-				if (user == ""){
-					// Warning code here for later.
-				} else if (clip.indexOf("youtube.com/watch?") == -1){
-					// More warning code here for later.
-				} else {
-					$(this).prop("disabled", true);
-					$(this).val("");
-					$.post("/utils/dj", {
-						type: "add",
-						user: user,
-						data: {
-							link: clip
-						}
-					}, function(data){
-						if (data.type == "error"){
-							// Yet even more warning code.
-						} else {
-							refresh(data.data.queue);
-						}
-					});
-				}
+				add_request(this, clip);
 			};
 		}
 	}
@@ -69,6 +66,37 @@ $(document).ready(function(){
 		});
 	}, 5000);
 });
+
+function add_request(input, link){
+	if (user == ""){
+		print_message({
+			error: true,
+			message: "You are not logged in!"
+		});
+	} else if (link.indexOf("youtube.com/watch?") == -1){
+		print_message({
+			error: true,
+			message: "You have entered an invalid YouTube link!"
+		});
+	} else {
+		$(input).prop("disabled", true);
+		$(input).val("");
+		$.post("/utils/dj", {
+			type: "add",
+			data: {
+				link: link
+			}
+		}, function(data){
+			if (data.type == "message" || data.data.message){
+				print_message(data.data);
+				if (data.type == "message"){
+					return;
+				}
+			}
+			refresh(data.data.queue);
+		});
+	}
+}
 
 function refresh(queue){
 	var disabled = false;
@@ -111,4 +139,20 @@ function refresh(queue){
 		}
 	}
 	$("input[name='add']").prop("disabled", disabled);
+}
+
+function print_message(data){
+	var div = $("<div/>", {
+		"class": "message"
+	});
+	div.addClass(data.error ? "red" : "green");
+	div.text(data.message);
+	if ($("div.message").length > 0){
+		$("div.message").replaceWith(div);
+	} else {
+		$("div.box").prepend(div);
+	}
+	setTimeout(function(){
+		div.remove();
+	}, 7500);
 }

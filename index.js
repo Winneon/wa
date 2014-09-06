@@ -69,34 +69,39 @@ router.post("/utils/dj", function(req, res){
 		switch (req.body.type){
 			default:
 				res.json({
-					type: "error",
+					type: "message",
 					data: {
+						error: true,
 						message: "Unknown request type!"
 					}
 				});
 				break;
 			case "add":
-				if (queue.get_request(req.body.user)){
+				if (queue.get_request(req.session.user)){
 					res.json({
-						type: "error",
+						type: "message",
 						data: {
+							error: true,
 							message: "You have already requested a song!"
 						}
 					});
 				} else {
 					utils.get_youtube_data(req.body.data.link, function(success, title, link, duration){
 						if (success){
-							queue.add_request(title, link, duration, req.body.user);
+							queue.add_request(title, link, duration, req.session.user);
+							console.log("Added a new request from " + req.session.user + ".");
 							res.json({
 								type: "refresh",
 								data: {
+									message: "Added " + link + " to the queue.",
 									queue: queue.list
 								}
 							});
 						} else {
 							res.json({
-								type: "error",
+								type: "message",
 								data: {
+									error: true,
 									message: "There was an error parsing your link!"
 								}
 							});
@@ -105,35 +110,54 @@ router.post("/utils/dj", function(req, res){
 				}
 				break;
 			case "remove":
-				if (queue.rem_request(req.body.user)){
+				var cont = false;
+				if (queue.get_request(req.session.user)){
+					queue.list[0] == queue.get_request(req.session.user) ? queue.kill() : queue.rem_request(req.session.user);
+					cont = true;
+				}
+				if (cont){
+					console.log("Removed " + req.session.user + "'s request.");
 					res.json({
 						type: "refresh",
 						data: {
+							message: "Removed your request from the queue.",
 							queue: queue.list
 						}
 					});
 				} else {
 					res.json({
-						type: "error",
+						type: "message",
 						data: {
+							error: true,
 							message: "You have yet to request a song to drop!"
 						}
 					});
 				}
 				break;
 			case "veto":
-				if (queue.playing){
+				if (queue.playing && users.get_user(req.session.user).staff){
+					console.log("Vetoed the current request.");
 					queue.kill();
 					res.json({
 						type: "refresh",
 						data: {
+							message: "Vetoed the current request.",
 							queue: queue.list
+						}
+					});
+				} else if (!users.get_user(req.session.user).staff){
+					res.json({
+						type: "message",
+						data: {
+							error: true,
+							message: "You are not staff!"
 						}
 					});
 				} else {
 					res.json({
-						type: "error",
+						type: "message",
 						data: {
+							error: true,
 							message: "There is nothing playing at the moment!"
 						}
 					});
@@ -150,8 +174,9 @@ router.post("/utils/dj", function(req, res){
 		}
 	} else {
 		res.json({
-			type: "error",
+			type: "message",
 			data: {
+				error: true,
 				message: "You did not specify a request type!"
 			}
 		});

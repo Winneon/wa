@@ -16,10 +16,7 @@ function Users(){
 			return false;
 		}
 		this.file.registered[username] = password;
-		this.file.data[username] = {
-			afk: false,
-			nick: ""
-		};
+		this.file.data[username] = this.default_keys;
 		return true;
 	};
 
