@@ -37,6 +37,7 @@ app.get("*", function(req, res){
 });
 
 router.post("/register", function(req, res){
+	utils.set_headers(res);
 	if (users.register(req.body.username, req.body.password)){
 		req.session.user = req.body.username;
 		res.json({
@@ -50,6 +51,7 @@ router.post("/register", function(req, res){
 });
 
 router.post("/login", function(req, res){
+	utils.set_headers(res);
 	if (users.login(req.body.username, req.body.password)){
 		req.session.user = req.body.username;
 		res.json({
@@ -65,6 +67,7 @@ router.post("/login", function(req, res){
 // dJRequest POST Data
 
 router.post("/utils/dj", function(req, res){
+	utils.set_headers(res);
 	if (req.body.type){
 		switch (req.body.type){
 			default:

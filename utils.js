@@ -68,6 +68,12 @@ function Utils(){
 			}
 		});
 	};
+	
+	this.set_headers = function(res){
+		res.header("Access-Control-Allow-Origin", "*");
+		res.header("Access-Control-Allow-Methods", "GET,POST");
+		res.header("Access-Control-Allow-Header", "Content-Type");
+	};
 }
 
 module.exports = new Utils();
