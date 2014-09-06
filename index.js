@@ -211,7 +211,7 @@ app.use(router);
 
 app.use(function(req, res, next){
 	res.locals.basedir = app.get("views");
-	res.locals.url = req.url;
+	res.locals.url = req.url.split("?")[0];
 	res.locals.user = req.cookies.user;
 	
 	next();
