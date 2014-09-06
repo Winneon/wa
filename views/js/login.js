@@ -29,7 +29,7 @@ function submit(type){
 	var user = $("input[name='user']").val();
 	var pass = $("input[name='password']").val();
 	if (user != "" && pass != ""){
-		$.post("/" + type, {
+		$.post("/api/" + type, {
 			username: user,
 			password: pass
 		}, function(data){

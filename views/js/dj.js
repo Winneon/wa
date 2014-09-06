@@ -9,7 +9,7 @@ $(document).ready(function(){
 				message: "You are not logged in!"
 			});
 		} else {
-			$.post("/utils/dj", {
+			$.post("/api/dj", {
 				type: "remove"
 			}, function(data){
 				if (data.type == "message" || data.data.message){
@@ -23,14 +23,14 @@ $(document).ready(function(){
 		}
 	});
 	$("div.controls i.fa-refresh").click(function(event){
-		$.post("/utils/dj", {
+		$.post("/api/dj", {
 			type: "refresh"
 		}, function(data){
 			refresh(data.data.queue);
 		});
 	});
 	$("div.controls i.fa-gavel").click(function(event){
-		$.post("/utils/dj", {
+		$.post("/api/dj", {
 			type: "veto"
 		}, function(data){
 			if (data.type == "message" || data.data.message){
@@ -59,7 +59,7 @@ $(document).ready(function(){
 		}
 	}
 	setInterval(function(){
-		$.post("/utils/dj", {
+		$.post("/api/dj", {
 			type: "refresh"
 		}, function(data){
 			refresh(data.data.queue);
@@ -81,7 +81,7 @@ function add_request(input, link){
 	} else {
 		$(input).prop("disabled", true);
 		$(input).val("");
-		$.post("/utils/dj", {
+		$.post("/api/dj", {
 			type: "add",
 			data: {
 				link: link

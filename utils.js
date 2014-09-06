@@ -4,7 +4,9 @@ var http    = require("http"),
 
 var config  = require("./config.json");
 
-function Utils(){
+function Utils(app){
+	this.app = app;
+	
 	this.timestamp = function(){
 		var date  = new Date().toString(),
 		    split = date.split(" "),
@@ -74,6 +76,32 @@ function Utils(){
 		res.header("Access-Control-Allow-Methods", "GET,POST");
 		res.header("Access-Control-Allow-Header", "Content-Type");
 	};
+	
+	this.render_page = function(data){
+		data.res.render(data.page.indexOf("/") == 0 ?
+			data.page.substring(1, data.page.length) :
+			data.page, function(error, html){
+			if (error){
+				if (error.view){
+					data.res.redirect("/404");
+				} else {
+					console.log(error);
+					data.res.redirect("/error");
+				}
+			} else {
+				data.res.end(html);
+			}
+		});
+	};
+	
+	this.add_login_cookie = function(res, username){
+		res.cookie("user", username, {
+			path: "/",
+			maxAge: 60 * 60 * 365 * 20 * 1000 // Lasts 20 years! That's not pushing it, right?
+		});
+	};
+	
+	return this;
 }
 
-module.exports = new Utils();
+module.exports = Utils;

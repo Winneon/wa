@@ -1,11 +1,12 @@
 var express = require("express"),
     session = require("express-session"),
+    cookie  = require("cookie-parser"),
     app     = express(),
     http    = require("http").Server(app),
     parser  = require("body-parser"),
     path    = require("path");
 
-var utils   = require("./utils.js"),
+var utils   = require("./utils.js")(app),
     users   = require("./users.js"),
     queue   = require("./queue.js"),
     config  = require("./config.json");
@@ -19,27 +20,35 @@ app.use(parser.urlencoded({
 
 app.use(express.static(app.get("views")));
 app.use(parser.json());
-app.use(session({
-	secret: config.secret,
-	resave: true,
-	saveUninitialized: true
-}));
+app.use(cookie());
 
 var router = express.Router();
 
-app.get("*", function(req, res){
-	var split = req.url.split("?");
-	res.render(split[0].replace("/", ""), {
-		basedir: app.get("views"),
-		url: split[0],
-		session: req.session
+router.use(function(req, res, next){
+	utils.set_headers(res);
+	next();
+});
+
+router.get("/api/logout", function(req, res){
+	var cont = req.cookies.user ? true : false;
+	if (cont){
+		res.clearCookie("user");
+	}
+	res.format({
+		"application/json": function(){
+			res.json({
+				success: cont
+			});
+		},
+		"text/html": function(){
+			res.redirect("/index");
+		}
 	});
 });
 
-router.post("/register", function(req, res){
-	utils.set_headers(res);
+router.post("/api/register", function(req, res){
 	if (users.register(req.body.username, req.body.password)){
-		req.session.user = req.body.username;
+		utils.add_login_cookie(res, req.body.username);
 		res.json({
 			success: true
 		});
@@ -50,10 +59,9 @@ router.post("/register", function(req, res){
 	}
 });
 
-router.post("/login", function(req, res){
-	utils.set_headers(res);
+router.post("/api/login", function(req, res){
 	if (users.login(req.body.username, req.body.password)){
-		req.session.user = req.body.username;
+		utils.add_login_cookie(res, req.body.username);
 		res.json({
 			success: true
 		});
@@ -66,8 +74,7 @@ router.post("/login", function(req, res){
 
 // dJRequest POST Data
 
-router.post("/utils/dj", function(req, res){
-	utils.set_headers(res);
+router.post("/api/dj", function(req, res){
 	if (req.body.type){
 		switch (req.body.type){
 			default:
@@ -80,7 +87,7 @@ router.post("/utils/dj", function(req, res){
 				});
 				break;
 			case "add":
-				if (queue.get_request(req.session.user)){
+				if (queue.get_request(req.cookies.user)){
 					res.json({
 						type: "message",
 						data: {
@@ -91,8 +98,8 @@ router.post("/utils/dj", function(req, res){
 				} else {
 					utils.get_youtube_data(req.body.data.link, function(success, title, link, duration){
 						if (success){
-							queue.add_request(title, link, duration, req.session.user);
-							console.log("Added a new request from " + req.session.user + ".");
+							queue.add_request(title, link, duration, req.cookies.user);
+							console.log("Added a new request from " + req.cookies.user + ".");
 							res.json({
 								type: "refresh",
 								data: {
@@ -114,12 +121,12 @@ router.post("/utils/dj", function(req, res){
 				break;
 			case "remove":
 				var cont = false;
-				if (queue.get_request(req.session.user)){
-					queue.list[0] == queue.get_request(req.session.user) ? queue.kill() : queue.rem_request(req.session.user);
+				if (queue.get_request(req.cookies.user)){
+					queue.list[0] == queue.get_request(req.cookies.user) ? queue.kill() : queue.rem_request(req.cookies.user);
 					cont = true;
 				}
 				if (cont){
-					console.log("Removed " + req.session.user + "'s request.");
+					console.log("Removed " + req.cookies.user + "'s request.");
 					res.json({
 						type: "refresh",
 						data: {
@@ -138,7 +145,7 @@ router.post("/utils/dj", function(req, res){
 				}
 				break;
 			case "veto":
-				if (queue.playing && users.get_user(req.session.user).staff){
+				if (queue.playing && users.get_user(req.cookies.user).staff){
 					console.log("Vetoed the current request.");
 					queue.kill();
 					res.json({
@@ -148,7 +155,7 @@ router.post("/utils/dj", function(req, res){
 							queue: queue.list
 						}
 					});
-				} else if (!users.get_user(req.session.user).staff){
+				} else if (!users.get_user(req.cookies.user).staff){
 					res.json({
 						type: "message",
 						data: {
@@ -201,6 +208,21 @@ setInterval(function(){
 }, 500);
 
 app.use(router);
+
+app.use(function(req, res, next){
+	res.locals.basedir = app.get("views");
+	res.locals.url = req.url;
+	res.locals.user = req.cookies.user;
+	
+	next();
+});
+
+app.get("*", function(req, res){
+	utils.render_page({
+		res: res,
+		page: req.url.split("?")[0],
+	});
+});
 
 http.listen(config.port, function(){
 	console.log("Listening on port " + config.port + ".");

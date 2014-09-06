@@ -1,7 +1,7 @@
 - var navbar = {}
 - navbar["home"] = "/index"
 - navbar["rules"] = "/rules"
-if session.user
+if user
 	- navbar["chat"] = "/chat"
 else
 	- navbar["login"] = "/login"
@@ -19,6 +19,9 @@ else
 - drops["utilities"]["markkit"] = "/utils/markkit"
 - drops["utilities"]["calendar"] = "/utils/calendar"
 - drops["utilities"]["settings"] = "/utils/settings"
+if user
+	- drops["utilities"]["logout"] = "/api/logout"
+
 ul.navbar
 	each link, text in navbar
 		li

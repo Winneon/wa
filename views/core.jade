@@ -16,9 +16,9 @@ html(lang="en")
 			include /navbar
 			.page
 				div.user_box
-					if session.user
+					if user
 						| Welcome, 
-						span #{session.user}
+						span #{user}
 						| !
 					else
 						| Please 
