@@ -3,12 +3,26 @@ var fs     = require("fs"),
 
 var config = require("./config.json"),
     file   = require("./users.json");
+    
+var chat = [];
+var players = [];
 
 function Users(){
 	this.file = file;
 	this.default_keys = {
 		staff: false
 	};
+	
+	this.players = players;
+	this.saved_chat = chat;
+	
+	this.add_chat = function(message){
+
+		chat.push(message);
+		if (chat.length > 100){
+			chat.splice(0, 1);
+		}
+	}
 	
 	this.register = function(username, password){
 		password = this.encrypt(password);

@@ -74,6 +74,40 @@ router.post("/api/login", function(req, res){
 
 // dJRequest POST Data
 
+router.post("/api/chat", function(req, res){
+	
+	var time = utils.timestamp();
+				 
+	if (req.body.type == "minecraft_refresh"){
+		if (users.saved_chat.length > 0){
+			users.players = req.body.players;
+			res.json({
+				message: users.saved_chat,
+				type: "send"
+			});
+		} else {
+			res.json({
+				message: ["WC: Website Chat Hooked!"],
+				type: "send"
+			});
+		}
+	} else if (req.body.type == "minecraft_insert"){
+		users.add_chat("[" + time.substring(0, time.indexOf(" ")) + "] " + req.body.user + ": " + req.body.message);
+		res.json({
+			message: "[" + time.substring(0, time.indexOf(" ")) + "] " + req.body.user + ": " + req.body.message,
+			type: "update"
+		});
+	} else {
+		if (req.body.type == "chat" && req.body.message != ""){
+			users.add_chat("[" + time.substring(0, time.indexOf(" ")) + "] " + req.cookies.user + ": " + req.body.message);
+		}
+		res.json({
+			message: users.saved_chat,
+			players: users.players
+		});
+	}
+});
+
 router.post("/api/dj", function(req, res){
 	if (req.body.type){
 		switch (req.body.type){
