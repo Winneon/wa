@@ -44,7 +44,7 @@ function players(data){
 	
 	for (var i in data){
 		if ($("#" + data[i]).length <= 0){
-			$("#chatWrapper").append("<span title='" + data[i] + "' style='float: right; overflow: scroll; padding-bottom: 2cm' id='" + data[i] + "'></span>");
+			$("#chatWrapper").append("<span title='" + data[i] + "' style='float: right; padding-bottom: 2cm' id='" + data[i] + "'></span>");
 		}
 		$("span[id='" + data[i] + "']").html("&nbsp; <img height='30' width='30' src='https://minotar.net/avatar/" + data[i] + "/45.png' />&nbsp;");
 	}
