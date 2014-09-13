@@ -28,10 +28,10 @@ function refresh(data){
 		if ($("#" + i).length <= 0){
 			$("div.chat_flow").append("<span id='" + i + "'></span>");
 		}
-		if ($("span#" + i).html() != data[i] + "<br/>"){
+		if ($("span#" + i).html() != data[i]){
 			changed = true;
 		}
-		$("span#" + i).html(data[i] + "<br />");
+		$("span#" + i).html(data[i]);
 	}
 	if (changed){
 		$("div.chat_flow").scrollTop(50000);
