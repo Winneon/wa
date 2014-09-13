@@ -46,8 +46,4 @@ function players(data){
 			"src": "https://minotar.net/avatar/" + data[i] + "/45.png",
 		}));
 	}
-	if (data.length <= 0){
-		$("div.heads").empty("span");
-		$("div.heads").html("SERVER CHAT");
-	}
 }

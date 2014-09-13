@@ -17,7 +17,6 @@ function Users(){
 	this.saved_chat = chat;
 	
 	this.add_chat = function(message){
-
 		chat.push(message);
 		if (chat.length > 100){
 			chat.splice(0, 1);

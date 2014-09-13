@@ -1,5 +1,6 @@
 extends core
 block css
+	link(rel="stylesheet", type="text/css", href="//fonts.googleapis.com/css?family=Roboto:400")
 	link(rel="stylesheet", type="text/css", href="/css/chat.css")
 	include /redirect
 block content
@@ -7,6 +8,6 @@ block content
 		.heads
 	.box
 		div.chat_flow
-		input(type="text", name="input", placeholder="Enter chat message", maxLength = "80")
+		input(type="text", name="input", placeholder="Enter chat message", maxLength="80")
 block js
 	script(type="text/javascript", src="/js/chat.js")
