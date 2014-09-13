@@ -259,6 +259,9 @@ div.chat_flow {
   padding: 7px 10px;
   font-family: "Roboto", monospace; }
 
+div.chat_flow span {
+  display: block; }
+
 div.chat_flow::-webkit-scrollbar-thumb {
   background-color: rgba(45, 45, 45, 0.75); }
 
