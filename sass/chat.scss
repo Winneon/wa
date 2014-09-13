@@ -14,10 +14,6 @@ div.heads {
 	padding: 10px 15px;
 }
 
-div.heads span {
-	display: block;
-}
-
 div.heads img {
 	height: 100%;
 	margin-left: 5px;
@@ -33,6 +29,10 @@ div.chat_flow {
 	height: 500px;
 	padding: 7px 10px;
 	font-family: "Roboto", monospace;
+}
+
+div.chat_flow span {
+	display: block;
 }
 
 div.chat_flow::-webkit-scrollbar-thumb {
