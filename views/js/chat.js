@@ -23,14 +23,19 @@ $(document).ready(function(){
 });
 
 function refresh(data){
+	var changed = false;
 	for (var i in data){
 		if ($("#" + i).length <= 0){
 			$("div.chat_flow").append("<span id='" + i + "'></span>");
 		}
+		if ($("span#" + i).html() != data[i] + "<br/>"){
+			changed = true;
+		}
 		$("span#" + i).html(data[i] + "<br />");
-		$("span#" + i).attr("visibility", "visible");
 	}
-	$("div.chat_flow").scrollTop(50000);
+	if (changed){
+		$("div.chat_flow").scrollTop(50000);
+	}
 }
 
 function players(data){
