@@ -6,7 +6,8 @@ module.exports = function(grunt){
 					"views/css/style.css": "sass/style.scss",
 					"views/css/load.css": "sass/load.scss",
 					"views/css/login.css": "sass/login.scss",
-					"views/css/dj.css": "sass/dj.scss"
+					"views/css/dj.css": "sass/dj.scss",
+					"views/css/chat.css": "sass/chat.scss"
 				}
 			}
 		},

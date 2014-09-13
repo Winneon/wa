@@ -7,17 +7,17 @@ $(document).ready(function(){
 			}, function(data){
 				refresh(data.message);
 			});
-			$("input[name='input']").val('');
+			$("input[name='input']").val("");
+			return false;
 		}
 	});
-
 	setInterval(function(){
 		$.post("/api/chat", {
 			type: "refresh",
 			message: ""
 		}, function(data){
 			refresh(data.message);
-			players(data.players);
+			//players(data.players);
 		});
 	}, 2000);
 });
@@ -25,32 +25,29 @@ $(document).ready(function(){
 function refresh(data){
 	for (var i in data){
 		if ($("#" + i).length <= 0){
-			$("#chatFlow").append("<span id='" + i + "'></span>");
+			$("div.chat_flow").append("<span id='" + i + "'></span>");
 		}
-		$("span[id='" + i + "']").html(data[i] + "<br />");
-		$("span[id='" + i + "']").attr("visibility", "visible");
+		$("span#" + i).html(data[i] + "<br />");
+		$("span#" + i).attr("visibility", "visible");
 	}
-	$("#chatFlow").scrollTop(9999);
+	$("div.chat_flow").scrollTop(50000);
 }
 
 function players(data){
-
-	$("#chatWrapper").children('span').each(function(){
-    	if (data.indexOf($(this).attr('id')) === -1){
-    		$("#chatWrapper").remove("." + $(this).attr('id'));
-    		console.log("attempted to remove")
-    	}
-	});
-	
+	$("div.heads").html("");
 	for (var i in data){
 		if ($("#" + data[i]).length <= 0){
-			$("#chatWrapper").append("<span title='" + data[i] + "' style='float: right; padding-bottom: 2cm' id='" + data[i] + "'></span>");
+			$("div.heads").append($("<span/>", {
+				"title": data[i],
+				"id": data[i]
+			}));
 		}
-		$("span[id='" + data[i] + "']").html("&nbsp; <img height='30' width='30' src='https://minotar.net/avatar/" + data[i] + "/45.png' />&nbsp;");
+		$("span#" + data[i]).append($("<img/>", {
+			"src": "https://minotar.net/avatar/" + data[i] + "/45.png",
+		}));
 	}
-	
 	if (data.length <= 0){
-		$("#chatWrapper").empty('span');
-		$("#chatWrapper").html("SERVER CHAT");
+		$("div.heads").empty("span");
+		$("div.heads").html("SERVER CHAT");
 	}
 }

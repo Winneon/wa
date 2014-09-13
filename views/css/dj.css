@@ -219,7 +219,7 @@ div.user_box span {
   width: 36px; }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.75);
+  background-color: rgba(255, 255, 255, 0.5);
   background-clip: padding-box;
   border: 15px solid transparent;
   border-radius: 27px; }

@@ -268,14 +268,14 @@ div.user_box span {
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: rgba(255, 255, 255, 0.75);
+	background-color: rgba(255, 255, 255, 0.5);
 	background-clip: padding-box;
 	border: 15px solid transparent;
 	border-radius: 27px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-	background-color: white
+	background-color: white;
 }
 
 ::-webkit-scrollbar-button {

@@ -1,10 +1,12 @@
 extends core
 block css
+	link(rel="stylesheet", type="text/css", href="/css/chat.css")
 	include /redirect
 block content
-	h1(id ="chatWrapper") Server Chat
+	h1.chat_wrapper Server Chat
+		.heads
 	.box
-		div(id="chatFlow", style="height: 500px; width: 700px; overflow: scroll")
-		input(type="text", name="input", placeholder="Enter chat message...", maxLength = "80")
+		div.chat_flow
+		input(type="text", name="input", placeholder="Enter chat message", maxLength = "80")
 block js
 	script(type="text/javascript", src="/js/chat.js")

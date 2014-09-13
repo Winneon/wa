@@ -72,12 +72,8 @@ router.post("/api/login", function(req, res){
 	}
 });
 
-// dJRequest POST Data
-
 router.post("/api/chat", function(req, res){
-	
-	var time = utils.timestamp();
-				 
+	var time = utils.timestamp();	 
 	if (req.body.type == "minecraft_refresh"){
 		if (users.saved_chat.length > 0){
 			users.players = req.body.players;
@@ -107,6 +103,8 @@ router.post("/api/chat", function(req, res){
 		});
 	}
 });
+
+// dJRequest POST Data
 
 router.post("/api/dj", function(req, res){
 	if (req.body.type){
