@@ -17,7 +17,7 @@ $(document).ready(function(){
 			message: ""
 		}, function(data){
 			refresh(data.message);
-			//players(data.players);
+			players(data.players);
 		});
 	}, 2000);
 });
