@@ -37,7 +37,7 @@ function Utils(app){
 	
 	this.get_id = function(link){
 		var id = "";
-		if (link.indexOf("youtu.be")){
+		if (link.indexOf("youtu.be") > -1){
 			id = link.split("youtu.be/")[1];
 		} else {
 			id = link.split("v=")[1];
