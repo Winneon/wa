@@ -140,19 +140,3 @@ function refresh(queue){
 	}
 	$("input[name='add']").prop("disabled", disabled);
 }
-
-function print_message(data){
-	var div = $("<div/>", {
-		"class": "message"
-	});
-	div.addClass(data.error ? "red" : "green");
-	div.text(data.message);
-	if ($("div.message").length > 0){
-		$("div.message").replaceWith(div);
-	} else {
-		$("div.box").prepend(div);
-	}
-	setTimeout(function(){
-		div.remove();
-	}, 7500);
-}

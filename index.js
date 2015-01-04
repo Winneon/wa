@@ -108,6 +108,20 @@ router.post("/api/chat", function(req, res){
 
 router.post("/api/dj", function(req, res){
 	if (req.body.type){
+		if (req.cookies.user == undefined && req.body.data == undefined){
+			res.json({
+				type: "message",
+				data: {
+					error: true,
+					message: "You are not logged in! Please log in by sending a JSON request to /api/login."
+				}
+			});
+			return;
+		} else if (req.body.data && req.body.data.username && req.body.data.password){
+			if (users.login(req.body.data.username, req.body.data.password)){
+				req.cookies.user = req.body.data.username;
+			}
+		}
 		switch (req.body.type){
 			default:
 				res.json({
@@ -130,7 +144,7 @@ router.post("/api/dj", function(req, res){
 				} else {
 					utils.get_youtube_data(req.body.data.link, function(success, title, link, duration){
 						if (success){
-							queue.add_request(title, link, duration, req.cookies.user);
+							queue.add_request(title, link, duration + 5, req.cookies.user);
 							console.log("Added a new request from " + req.cookies.user + ".");
 							res.json({
 								type: "refresh",

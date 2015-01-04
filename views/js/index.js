@@ -14,3 +14,19 @@ $(document).ready(function(){
 function toJSON(data){
 	return JSON.parse("{\"" + decodeURI(data.replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + "\"}");
 }
+
+function print_message(data){
+	var div = $("<div/>", {
+		"class": "message"
+	});
+	div.addClass(data.error ? "red" : "green");
+	div.text(data.message);
+	if ($("div.message").length > 0){
+		$("div.message").replaceWith(div);
+	} else {
+		$("div.box").prepend(div);
+	}
+	setTimeout(function(){
+		div.remove();
+	}, 7500);
+}

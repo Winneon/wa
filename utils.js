@@ -57,12 +57,19 @@ function Utils(app){
 					
 					duration = duration.replace("H", " * 3600) + (");
 					duration = duration.replace("M", " * 60) + (");
-					duration = duration.replace("S", " * 1)");
+
+					if (duration.indexOf("S") > -1){
+						duration = duration.replace("S", " * 1)");
+					} else {
+						duration = duration + "0)";
+					}
 					
 					var secs = eval("(" + duration);
 					
 					callback(true, title, link, secs);
 				} catch (error){
+					console.log("There was an error parsing a request:fff");
+					console.log(error);
 					callback(false);
 				}
 			} else {
