@@ -73,11 +73,6 @@ function add_request(input, link){
 			error: true,
 			message: "You are not logged in!"
 		});
-	} else if (link.indexOf("youtube.com/watch?") == -1){
-		print_message({
-			error: true,
-			message: "You have entered an invalid YouTube link!"
-		});
 	} else {
 		$(input).prop("disabled", true);
 		$(input).val("");

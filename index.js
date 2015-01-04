@@ -62,6 +62,7 @@ router.post("/api/register", function(req, res){
 router.post("/api/login", function(req, res){
 	if (users.login(req.body.username, req.body.password)){
 		utils.add_login_cookie(res, req.body.username);
+		console.log(req.body.username + " has logged in!");
 		res.json({
 			success: true
 		});
@@ -142,27 +143,23 @@ router.post("/api/dj", function(req, res){
 						}
 					});
 				} else {
-					utils.get_youtube_data(req.body.data.link, function(success, title, link, duration){
-						if (success){
-							queue.add_request(title, link, duration + 5, req.cookies.user);
-							console.log("Added a new request from " + req.cookies.user + ".");
-							res.json({
-								type: "refresh",
-								data: {
-									message: "Added " + link + " to the queue.",
-									queue: queue.list
-								}
-							});
-						} else {
-							res.json({
-								type: "message",
-								data: {
-									error: true,
-									message: "There was an error parsing your link!"
-								}
-							});
-						}
-					});
+					if (req.body.data.link.indexOf("youtu.be") > -1 || req.body.data.link.indexOf("youtube.com") > -1){
+						utils.get_youtube_data(req.body.data.link, function(success, title, link, duration){
+							data_callback(req, res, success, title, link, duration);
+						});
+					} else if (req.body.data.link.indexOf("soundcloud.com") > -1){
+						utils.get_soundcloud_data(req.body.data.link, function(success, title, link, duration){
+							data_callback(req, res, success, title, link, duration);
+						});
+					} else {
+						res.json({
+							type: "message",
+							data: {
+								error: true,
+								message: "You have entered an invalid link!"
+							}
+						});
+					}
 				}
 				break;
 			case "remove":
@@ -252,6 +249,28 @@ setInterval(function(){
 		queue.playing = false;
 	}
 }, 500);
+
+function data_callback(req, res, success, title, link, duration){
+	if (success){
+		queue.add_request(title, link, duration + 5, req.cookies.user);
+		console.log("Added a new request from " + req.cookies.user + ".");
+		res.json({
+			type: "refresh",
+			data: {
+				message: "Added " + link + " to the queue.",
+				queue: queue.list
+			}
+		});
+	} else {
+		res.json({
+			type: "message",
+			data: {
+				error: true,
+				message: "There was an error parsing your link!"
+			}
+		});
+	}
+}
 
 app.use(router);
 

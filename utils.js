@@ -36,17 +36,22 @@ function Utils(app){
 	};
 	
 	this.get_id = function(link){
-		var id = link.split("v=")[1];
-		var pos = id.indexOf("&");
-		if (pos > -1){
-			id = id.substring(0, pos);
+		var id = "";
+		if (link.indexOf("youtu.be")){
+			id = link.split("youtu.be/")[1];
+		} else {
+			id = link.split("v=")[1];
+			var pos = id.indexOf("&");
+			if (pos > -1){
+				id = id.substring(0, pos);
+			}
 		}
 		return id;
 	};
 	
 	this.get_youtube_data = function(link, callback){
 		request({
-			url: "https://www.googleapis.com/youtube/v3/videos?id=" + this.get_id(link) + "&key=" + config.key + "&part=snippet,contentDetails",
+			url: "https://www.googleapis.com/youtube/v3/videos?id=" + this.get_id(link) + "&key=" + config.yt_key + "&part=snippet,contentDetails",
 			json: true
 		}, function(error, response, data){
 			if (!error && response.statusCode == 200 && data.items.length > 0){
@@ -68,7 +73,30 @@ function Utils(app){
 					
 					callback(true, title, link, secs);
 				} catch (error){
-					console.log("There was an error parsing a request:fff");
+					console.log("There was an error parsing a request:");
+					console.log(error);
+					callback(false);
+				}
+			} else {
+				console.log(data);
+				callback(false);
+			}
+		});
+	};
+	
+	this.get_soundcloud_data = function(link, callback){
+		request({
+			url: "https://api.soundcloud.com/resolve.json?url=" + link + "&client_id=" + config.sc_key,
+			json: true
+		}, function(error, response, data){
+			if (!error && response.statusCode == 200 && data.kind == "track"){
+				try {
+					var title = data.title;
+					var link = data.permalink_url;
+					var secs = Math.round(data.duration / 1000);
+					callback(true, title, link, secs);
+				} catch (error){
+					console.log("There was an error parsing a request:");
 					console.log(error);
 					callback(false);
 				}
@@ -76,7 +104,7 @@ function Utils(app){
 				callback(false);
 			}
 		});
-	};
+	}
 	
 	this.set_headers = function(res){
 		res.header("Access-Control-Allow-Origin", "*");

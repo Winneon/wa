@@ -45,7 +45,6 @@ function Users(){
 						this.file.data[username][key] = this.default_keys[key];
 					}
 				}
-				console.log(username + " has logged in!");
 				return true;
 			}
 		}
