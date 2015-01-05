@@ -243,7 +243,7 @@ setInterval(function(){
 			queue.process = utils.cmd("google-chrome", [queue.list[0].link]);
 			queue.timeout = setTimeout(function(){
 				queue.kill();
-			}, (queue.list[0].duration + 10) * 1000);
+			}, (queue.list[0].duration + 15) * 1000);
 		}
 	} else if (queue.list.length == 0){
 		queue.playing = false;
@@ -252,7 +252,7 @@ setInterval(function(){
 
 function data_callback(req, res, success, title, link, duration){
 	if (success){
-		queue.add_request(title, link, duration + 5, req.cookies.user);
+		queue.add_request(title, link, duration, req.cookies.user);
 		console.log("Added a new request from " + req.cookies.user + ".");
 		res.json({
 			type: "refresh",
