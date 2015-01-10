@@ -1,24 +1,24 @@
-- var navbar = {}
-- navbar["home"] = "/index"
-- navbar["rules"] = "/rules"
+- var navbar                       = {}
+- navbar["news"]                   = "/news"
+- navbar["rules"]                  = "/rules"
 if user
-	- navbar["chat"] = "/chat"
+	- navbar["chat"]               = "/chat"
 else
-	- navbar["login"] = "/login"
-- navbar["utilities"] = "javascript:void(0)"
-- navbar["about"] = "/about"
+	- navbar["login"]              = "/login"
+- navbar["utilities"]              = "javascript:void(0)"
+- navbar["about"]                  = "/about"
 
-- var drops = {}
-- drops["utilities"] = {}
-- drops["utilities"]["djrequest"] = "/utils/dj"
-- drops["utilities"]["shows.js"] = "http://ohsototes.com:8080"
-- drops["utilities"]["alliances"] = "/utils/alliances"
-- drops["utilities"]["teamspeak"] = "/utils/ts"
-- drops["utilities"]["staff"] = "/utils/staff"
-- drops["utilities"]["ranks"] = "/utils/ranks"
-- drops["utilities"]["markkit"] = "/utils/markkit"
-- drops["utilities"]["calendar"] = "/utils/calendar"
-- drops["utilities"]["settings"] = "/utils/settings"
+- var drops                        = {}
+- drops["utilities"]               = {}
+- drops["utilities"]["djrequest"]  = "/utils/dj"
+- drops["utilities"]["shows.js"]   = "http://ohsototes.com:8080"
+- drops["utilities"]["alliances"]  = "/utils/alliances"
+- drops["utilities"]["teamspeak"]  = "/utils/ts"
+- drops["utilities"]["staff"]      = "/utils/staff"
+- drops["utilities"]["ranks"]      = "/utils/ranks"
+- drops["utilities"]["markkit"]    = "/utils/markkit"
+- drops["utilities"]["calendar"]   = "/utils/calendar"
+- drops["utilities"]["settings"]   = "/utils/settings"
 if user
 	- drops["utilities"]["logout"] = "/api/logout"
 
@@ -33,7 +33,7 @@ ul.navbar
 					each link, desc in drops[text]
 						if url == link
 							- temp = desc
-			a(class=clazz, href=link, style="width: calc(800px / " + Object.keys(navbar).length + ")")= temp
+			a(class=clazz, href=link, style="width: calc(850px / " + Object.keys(navbar).length + ")")= temp
 			if drops[text]
 				ul.drop
 					each link, desc in drops[text]

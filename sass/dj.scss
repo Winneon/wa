@@ -1,5 +1,5 @@
 @import "lib/bourbon/bourbon";
-@import "style";
+@import "variables";
 
 h1 {
 	position: relative;
@@ -35,18 +35,22 @@ input[name="add"] {
 	display: block !important;
 }
 
-div.message {
-	border: 1px solid $h1_colour;
-	border-radius: 2px;
-	padding: 7px 10px;
-	margin-bottom: 15px;
-	font-size: 13.25px;
+table tr td:nth-child(1) {
+	width: 5%;
+	font-weight: 700;
+	text-align: right;
 }
 
-div.green {
-	background-color: #9AEB74;
+table tr td:nth-child(2) {
+	width: 68%;
 }
 
-div.red {
-	background-color: #EB8C74;
+table tr td:nth-child(3) {
+	width: 20%;
+}
+
+table tr td:nth-child(4) {
+	width: 7%;
+	font-weight: 700;
+	text-align: right;
 }

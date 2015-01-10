@@ -120,7 +120,7 @@ function Utils(app){
 				if (error.view){
 					data.res.redirect("/404");
 				} else {
-					//console.log(error);
+					console.log(error);
 					data.res.redirect("/error");
 				}
 			} else {

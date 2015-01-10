@@ -2,6 +2,24 @@
   margin: 0;
   padding: 0; }
 
+::-webkit-scrollbar {
+  width: 36px; }
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.5);
+  background-clip: padding-box;
+  border: 15px solid transparent;
+  border-radius: 27px; }
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: white; }
+
+::-webkit-scrollbar-button {
+  display: none; }
+
+::-webkit-scrollbar-corner {
+  background-color: transparent; }
+
 html, body {
   background: url("/img/bg.jpg") no-repeat center center fixed;
   background-size: cover;
@@ -26,6 +44,10 @@ h1 {
   font-weight: 400;
   text-transform: uppercase; }
 
+h1.bottom {
+  margin-top: 0px;
+  border-radius: 0px 0px 2px 2px; }
+
 h1:first-of-type {
   margin-top: 0px; }
 
@@ -49,24 +71,8 @@ table tr td {
   border-right: 1px solid #2D2D2D;
   padding: 5px 7px; }
 
-table tr td:nth-child(1) {
-  width: 5%;
-  font-weight: 700;
-  text-align: right; }
-
 table tr:first-child td:nth-child(1) {
   font-weight: 400; }
-
-table tr td:nth-child(2) {
-  width: 68%; }
-
-table tr td:nth-child(3) {
-  width: 20%; }
-
-table tr td:nth-child(4) {
-  width: 7%;
-  font-weight: 700;
-  text-align: right; }
 
 table tr:first-child td:nth-child(4) {
   font-weight: 400; }
@@ -90,20 +96,26 @@ input:first-child {
 input:last-child {
   margin-bottom: 0px; }
 
-button {
-  display: block;
+button, a.button {
+  display: inline-block;
+  background-color: #DDDDDD;
   cursor: pointer;
   box-sizing: border-box;
   border: 1px solid #2D2D2D;
   border-radius: 2px;
+  margin-left: 15px;
   padding: 7px 10px;
+  font-size: 13px;
   text-align: left;
   text-transform: uppercase;
   -webkit-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
   -moz-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out; }
 
-button:hover {
+button:first-of-type, a.button:first-of-type {
+  margin-left: 0px; }
+
+button:hover, a.button:hover {
   background-color: #2D2D2D;
   color: white; }
 
@@ -130,7 +142,7 @@ ul.navbar {
   list-style-type: none;
   border: 2px solid white;
   border-radius: 2px 2px 0px 0px;
-  width: 800px;
+  width: 850px;
   margin: 0 auto;
   color: white;
   font-size: 16px;
@@ -193,7 +205,7 @@ div.page {
   box-sizing: border-box;
   border-radius: 0px 0px 2px 2px;
   border: 2px solid white;
-  width: 804px;
+  width: 854px;
   padding: 40px;
   margin: 0 auto 50px auto; }
 
@@ -203,6 +215,9 @@ div.box {
   border-top: 0px solid transparent;
   border-radius: 0px 0px 2px 2px;
   padding: 15px 15px; }
+
+div.box.bottom {
+  border-radius: 0px; }
 
 div.user_box {
   position: absolute;
@@ -215,20 +230,15 @@ div.user_box {
 div.user_box span {
   font-weight: 700; }
 
-::-webkit-scrollbar {
-  width: 36px; }
+div.message {
+  border: 1px solid #2D2D2D;
+  border-radius: 2px;
+  padding: 7px 10px;
+  margin-bottom: 15px;
+  font-size: 13.25px; }
 
-::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.5);
-  background-clip: padding-box;
-  border: 15px solid transparent;
-  border-radius: 27px; }
+div.green {
+  background-color: #9AEB74; }
 
-::-webkit-scrollbar-thumb:hover {
-  background-color: white; }
-
-::-webkit-scrollbar-button {
-  display: none; }
-
-::-webkit-scrollbar-corner {
-  background-color: transparent; }
+div.red {
+  background-color: #EB8C74; }
