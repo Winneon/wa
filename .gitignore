@@ -1,6 +1,7 @@
 node_modules/
 config.json
 users.json
+*.7z
 views/
 !views/favicon.ico
 !views/*.jade
