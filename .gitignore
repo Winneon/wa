@@ -1,3 +1,10 @@
 node_modules/
 config.json
 users.json
+views/
+!views/favicon.ico
+!views/*.jade
+!views/css/
+!views/img/
+!views/js/
+!views/utils/
