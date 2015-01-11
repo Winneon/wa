@@ -2,10 +2,10 @@ node_modules/
 config.json
 users.json
 *.7z
-views/
+views/*
 !views/favicon.ico
 !views/*.jade
-!views/css/
-!views/img/
-!views/js/
+!views/css/*
+!views/img/*
+!views/js/*
 !views/utils/*.jade
