@@ -8,4 +8,4 @@ views/
 !views/css/
 !views/img/
 !views/js/
-!views/utils/
+!views/utils/*.jade
