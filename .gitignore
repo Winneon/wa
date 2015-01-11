@@ -5,7 +5,11 @@ users.json
 views/*
 !views/favicon.ico
 !views/*.jade
+views/css/*
 !views/css/*
+views/img/*
 !views/img/*
+views/js/*
 !views/js/*
+views/utils/*
 !views/utils/*
