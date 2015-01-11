@@ -12,4 +12,4 @@ views/img/*
 views/js/*
 !views/js/*
 views/utils/*
-!views/utils/*
+!views/utils/*.jade
