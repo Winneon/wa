@@ -118,6 +118,7 @@ function Utils(app){
 			data.page, function(error, html){
 			if (error){
 				if (error.view){
+					console.log(error);
 					data.res.redirect("/404");
 				} else {
 					console.log(error);
