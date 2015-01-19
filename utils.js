@@ -131,7 +131,7 @@ function Utils(app){
 	this.add_login_cookie = function(res, username){
 		res.cookie("user", username, {
 			path: "/",
-			maxAge: 60 * 60 * 365 * 20 * 1000 // Lasts 20 years! That's not pushing it, right?
+			maxAge: 60 * 60 * 24 * 365 * 20 * 1000 // Lasts 20 years! That's not pushing it, right?
 		});
 	};
 	
