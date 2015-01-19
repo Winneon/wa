@@ -2,11 +2,22 @@ extends /core
 block css
 	link(rel="stylesheet", type="text/css", href="/css/login.css")
 block content
-	h1 Login or Register to ohsototes.com
+	h1 Login to ohsototes.com
 	.box
-		input(type="text", name="user", placeholder="Minecraft Username")
-		button(type="submit", name="login") Log In
-		input(type="password",name="password",  placeholder="Password")
-		button(type="submit", name="register") Register
+		div
+			input(type="text", name="user", placeholder="Minecraft Username")
+			button(type="submit", name="register") Log In
+		div
+			input(type="password",name="password", placeholder="Password")
+	h1 How to register
+	.box
+		ol
+			li If you are not a member of Worlds Apart / WCN, post an application at the MinecraftForum.net link 
+				a(href="http://www.minecraftforum.net/forums/servers/pc-servers/survival-servers/773300-worlds-apart-1-8-survival-custom-plugins-creative", target="_blank") here.
+			li Once approved, type /website in-game.
+			li Go to 
+				a(href="http://worldscolli.de/register", target="_blank") http://worldscolli.de/register
+				|  and enter your code you recieved in the previous step along with a password of your own choosing.
+			li Press enter or click "Register" and you should&#8482; be automatically logged in!
 block js
 	script(type="text/javascript", src="/js/login.js")

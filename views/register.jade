@@ -1,0 +1,13 @@
+extends /core
+block css
+	link(type="text/css", rel="stylesheet", href="/css/register.css")
+block content
+	h1 Register to ohsototes.com
+	.box
+		div
+			input(type="text", name="code", placeholder="Code")
+			button(type="submit", name="register") Register
+		div
+			input(type="password",name="password", placeholder="Password")
+block js
+	script(type="text/javascript", src="/js/register.js")

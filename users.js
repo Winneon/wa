@@ -42,30 +42,31 @@ function Users(){
 		}
 		return false;
 	};
-	
-	this.register = function(username, password){
-		password = this.encrypt(password);
-		if (this.file.registered[username]){
+
+	this.register_code = function(data){
+		if (this.file.data[data.username]){
 			return false;
 		}
-		this.file.registered[username] = password;
-		this.file.data[username] = this.default_keys;
-		this.file.data[username].playlist = [];
+		this.file.codes[data.code] = data.username;
+		this.file.data[data.username] = this.default_keys;
+		this.file.data[data.username].staff = data.staff;
+		return true;
+	};
+	
+	this.register = function(data){
+		if (this.file.codes[data.code] == undefined){
+			return false;
+		}
+		var username = this.file.codes[data.code];
+		data.password = this.encrypt(data.password);
+		this.file.data[username].password = data.password;
 		return true;
 	};
 
 	this.login = function(username, password){
-		if (this.file.registered[username]){
-			var decrypted = this.decrypt(this.file.registered[username]);
-			if (decrypted == password){
-				if (!this.file.data[username]){
-					this.file.data[username] = this.default_keys;
-				}
-				for (var key in this.default_keys){
-					if (!this.file.data[username][key]){
-						this.file.data[username][key] = this.default_keys[key];
-					}
-				}
+		if (this.file.data[username]){
+			password = this.encrypt(password);
+			if (this.file.data[username].password == password){
 				return true;
 			}
 		}

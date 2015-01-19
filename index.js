@@ -7,7 +7,8 @@ var express    = require("express"),
     proxy      = http_proxy.createProxyServer({ });
     parser     = require("body-parser"),
     path       = require("path"),
-    fs         = require("fs");
+    fs         = require("fs"),
+    request    = require("request");
 
 var utils      = require("./utils.js")(app),
     users      = require("./users.js"),
@@ -34,9 +35,20 @@ router.use(function(req, res, next){
 		res.redirect("/login");
 	} else {
 		if (req.cookies.user){
-			req.cookies.user = users.decrypt(req.cookies.user);
+			try {
+				req.cookies.user = users.decrypt(req.cookies.user);
+			} catch (e){
+				res.clearCookie("user");
+				req.cookies.user = undefined;
+			}
 		}
+	}
+	try {
 		next();
+	} catch (e){
+		console.log("An error occured parsing an HTTP request:");
+		console.log(e.stack());
+		res.end();
 	}
 });
 
@@ -52,14 +64,47 @@ router.get("/api/logout", function(req, res){
 			});
 		},
 		"text/html": function(){
-			res.redirect("/index");
+			res.redirect("/");
 		}
 	});
 });
 
+router.post("/api/register_code", function(req, res){
+	if (req.body.check == config.check){
+		req.body.uuid = req.body.uuid.replace(/-/g, "");
+		request({
+			url: "https://sessionserver.mojang.com/session/minecraft/profile/" + req.body.uuid,
+			json: true
+		}, function(error, response, data){
+			if (!error && response.statusCode == 200){
+				users.register_code({
+					username: data.name,
+					code: req.body.id,
+					staff: req.body.staff
+				});
+				res.json({
+					success: true
+				});
+			} else {
+				console.log(error);
+				res.json({
+					success: false
+				});
+			}
+		});
+	} else {
+		res.json({
+			success: false
+		});
+	}
+});
+
 router.post("/api/register", function(req, res){
-	if (users.register(req.body.username, req.body.password)){
-		utils.add_login_cookie(res, users.encrypt(req.body.username));
+	if (users.register({
+		code: req.body.code,
+		password: req.body.password
+	})){
+		utils.add_login_cookie(res, users.encrypt(users.file.codes[req.body.code]));
 		res.json({
 			success: true
 		});
@@ -303,7 +348,7 @@ function data_callback(req, res, success, title, link, duration, thumb){
 				type: "message",
 				data: {
 					error: true,
-					message: "You have already requested a song!"
+					message: "You have already requested a song! Added your request your personal playlist."
 				}
 			});
 		} else {
@@ -395,12 +440,14 @@ http.createServer(function(req, res){
 			target: "http://localhost:9091"
 		});
 	}
-}).listen(9090, function(){
-	console.log("Started the proxy on port 9090.");
-	console.log("Started the main website on port " + config.port + ".");
+}).listen(config.proxy_port, function(){
+	console.log("Started the proxy on port " + config.proxy_port + ".");
+	
 });
 
-app.listen(config.port);
+app.listen(config.website_port, function(){
+	console.log("Started the main website on port " + config.website_port + ".");
+});
 
 process.stdin.resume();
 
@@ -415,3 +462,7 @@ console.log_copy = console.log.bind(console);
 console.log = function(data){
 	this.log_copy("[" + utils.timestamp() + "]:", data);
 };
+
+function getClientAddress(req){
+	return (req.headers['x-forwarded-for'] || '').split(',')[0] || req.connection.remoteAddress;
+}

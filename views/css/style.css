@@ -1,6 +1,10 @@
-*:not(ul), ul.navbar, ul.drop {
+*, ul.navbar, ul.drop {
   margin: 0;
   padding: 0; }
+
+  ul, ol {
+    margin-left: 2em;
+  }
 
 ::-webkit-scrollbar {
   width: 36px; }

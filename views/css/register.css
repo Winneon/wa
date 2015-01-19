@@ -12,11 +12,3 @@ button {
 	bottom: 1px;
 	width: 20%;
 }
-
-a {
-	font-weight: 700;
-}
-
-ul.navbar a {
-	font-weight: inherit;
-}
