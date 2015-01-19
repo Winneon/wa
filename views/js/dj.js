@@ -23,11 +23,7 @@ $(document).ready(function(){
 		}
 	});
 	$("div.controls i.fa-refresh").click(function(event){
-		$.post("/api/dj", {
-			type: "refresh"
-		}, function(data){
-			refresh(data.data.queue);
-		});
+		refresh_callback();
 	});
 	$("div.controls i.fa-gavel").click(function(event){
 		$.post("/api/dj", {
@@ -58,14 +54,17 @@ $(document).ready(function(){
 			};
 		}
 	}
-	setInterval(function(){
-		$.post("/api/dj", {
-			type: "refresh"
-		}, function(data){
-			refresh(data.data.queue);
-		});
-	}, 5000);
+	refresh_callback();
+	setInterval(refresh_callback, 5000);
 });
+
+function refresh_callback(){
+	$.post("/api/dj", {
+		type: "refresh"
+	}, function(data){
+		refresh(data.data.queue);
+	});
+}
 
 function add_request(input, link){
 	if (user == ""){

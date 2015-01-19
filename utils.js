@@ -59,6 +59,7 @@ function Utils(app){
 					var title = data.items[0].snippet.title;
 					var link = "https://www.youtube.com/watch?v=" + data.items[0].id;
 					var duration = data.items[0].contentDetails.duration.replace("PT", "");
+					var thumb = data.items[0].snippet.thumbnails.high.url;
 					
 					duration = duration.replace("H", " * 3600) + (");
 					duration = duration.replace("M", " * 60) + (");
@@ -71,7 +72,7 @@ function Utils(app){
 					
 					var secs = eval("(" + duration);
 					
-					callback(true, title, link, secs);
+					callback(true, title, link, secs, thumb);
 				} catch (error){
 					console.log("There was an error parsing a request:");
 					console.log(error);
@@ -94,7 +95,9 @@ function Utils(app){
 					var title = data.title;
 					var link = data.permalink_url;
 					var secs = Math.round(data.duration / 1000);
-					callback(true, title, link, secs);
+					var thumb = data.artwork_url;
+
+					callback(true, title, link, secs, thumb);
 				} catch (error){
 					console.log("There was an error parsing a request:");
 					console.log(error);
@@ -117,12 +120,8 @@ function Utils(app){
 			data.page.substring(1, data.page.length) :
 			data.page, function(error, html){
 			if (error){
-				if (error.view){
-					data.res.redirect("/404");
-				} else {
-					console.log(error);
-					data.res.redirect("/error");
-				}
+				console.log(error);
+				data.res.redirect("/error");
 			} else {
 				data.res.end(html);
 			}

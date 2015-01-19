@@ -1,9 +1,11 @@
-var fs     = require("fs"),
-    crypto = require("crypto");
+var fs      = require("fs"),
+    crypto  = require("crypto");
 
-var config = require("./config.json"),
-    file   = require("./users.json");
-    
+var config  = require("./config.json"),
+    file    = require("./users.json");
+
+var request = require("./request.js");
+
 var chat = [];
 var players = [];
 
@@ -15,13 +17,31 @@ function Users(){
 	
 	this.players = players;
 	this.saved_chat = chat;
+
+	for (var i in this.file.data){
+		this.file.data[i].playlist = [];
+	}
 	
 	this.add_chat = function(message){
 		chat.push(message);
 		if (chat.length > 100){
 			chat.splice(0, 1);
 		}
-	}
+	};
+
+	this.add_request_playlist = function(title, link, duration, user, thumb){
+		this.file.data[user].playlist.push(request(title, link, duration, user, thumb));
+	};
+
+	this.remove_request_playlist = function(user, link){
+		for (var i in this.file.data[user].playlist){
+			if (this.file.data[user].playlist[i].link == link){
+				this.file.data[user].playlist.splice(i, 1);
+				return true;
+			}
+		}
+		return false;
+	};
 	
 	this.register = function(username, password){
 		password = this.encrypt(password);
@@ -30,6 +50,7 @@ function Users(){
 		}
 		this.file.registered[username] = password;
 		this.file.data[username] = this.default_keys;
+		this.file.data[username].playlist = [];
 		return true;
 	};
 
@@ -56,6 +77,9 @@ function Users(){
 	};
 
 	this.save = function(){
+		for (var i in this.file.data){
+			this.file.data[i].playlist = [];
+		}
 		fs.writeFileSync("users.json", JSON.stringify(this.file, null, "\t"));
 	};
 

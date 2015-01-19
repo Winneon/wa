@@ -1,17 +1,12 @@
 var request = require("./request.js");
 
-function Queue(){
-	this.list = [];
-	this.playing = false;
-	this.process = undefined;
-	this.timeout = undefined;
+function Playlist(users){
+	this.users = [];
 	
 	this.get_request = function(user){
 		for (var i = 0; i < this.list.length; i++){
-			var request = this.list[i];
-			if (request.user == user){
-				return request;
-			}
+			var request = this.users[user][i];
+			
 		}
 		return undefined;
 	};
@@ -46,4 +41,4 @@ function Queue(){
 	};
 }
 
-module.exports = new Queue();
+module.exports = Playlist;
